@@ -1,4 +1,3 @@
-
 var currentWord = [];
 
 //Listens for keypresses
