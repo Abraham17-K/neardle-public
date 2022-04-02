@@ -27,18 +27,35 @@ nav {
 
 .content {
      display: grid;
-     height: 90vh;
      justify-content: center;
      align-content: center;
 }
 
 .holder {
      display: grid;
-     width: 30vw;
-     grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+     width: 60vh;
+     grid-template-rows: repeat(6, 1fr);
+     gap: 10px;
+}
+
+.row {
+     display: grid;
+     grid-template-columns: repeat(5, 1fr);
+     height: 1fr;
+     gap: 10px;
+     width: 100%;
 }
 
 .block {
      background-color: transparent;
      border: 2px solid #3e3e3e;
+     height: 100%;
+     margin: calc(100% / 5);
+     display: grid;
+     justify-content: center;
+     align-content: center;
+}
+
+.keyboard {
+     height: 200px;
 }
