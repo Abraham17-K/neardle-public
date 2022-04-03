@@ -1,23 +1,23 @@
 const board = document.getElementById("board");
 const rows = board.children
-const correct = "#68cf30"
-const colors = []
+const colors = ["#68cf30", ]
 var currentDistance = [];
 var currentWord = [];
 var currentRow = 0;
 var won = false;
-// console.log(Math.abs('a'.charCodeAt(0)-'c'.charCodeAt(0)))
-
+const gradient = ['#130FB9', '#72cb1f', '#7bc701', '#84c300', '#8cbf00', '#94ba00', '#9bb600', '#a2b100', '#a9ac00', '#b0a700', '#b7a200', '#bd9c00', '#c39600', '#c99000', '#cf8a00', '#d58300', '#da7c00', '#e07500', '#e56d00', '#e96400', '#ee5b00', '#f25100', '#f64500', '#f93800', '#fc2500', '#ff0000']
 //Listens for keypresses
 document.addEventListener("keydown", (e) => {
-     if(won == true) return
+     if(won === true) return
      if(e.key == "Backspace") {
           currentWord.pop()
           updateBoard();
      }
      else if(e.key == "Enter") {
-          validateBoard()
-          colorBoard()
+          if (validateBoard() === true) {
+               colorBoard()
+          }
+
      }
      else if(currentWord.length >= 5) return
      else if(e.keyCode >= 65 && e.keyCode <= 90) {
@@ -25,6 +25,7 @@ document.addEventListener("keydown", (e) => {
      }
      updateBoard()
 });
+
 
 //Converts the array of currentWord to a string
 function toWord() {
@@ -52,23 +53,26 @@ function updateBoard() {
 }
 
 function colorBoard() {
+     let solution = getWord()
      let slots = rows[currentRow].children
-     for(let i = 0; i < currentWord.length; i++) {
-
+     for(let i = 0; i < 5; i++) {
+          let color = Math.abs(currentWord[i].charCodeAt()-solution.charCodeAt(i))
+          rows[currentRow].children[i].style.backgroundColor = gradient[color]
      }
+     currentWord = []
+     currentRow++
 }
 
 function validateBoard() {
      if (currentWord.length == 5 && checkWord()) {
-          if (checkSolution()) return
-          currentWord = []
-          currentRow++
+          if (checkSolution()) return true
+          return true
      } else if (currentWord.length < 5) {
           alert("Word is too short");
-          return;
+          return false;
      } else {
           alert("Word is not in the dictionary");
-          return;
+          return false;
      }   
 }
 
