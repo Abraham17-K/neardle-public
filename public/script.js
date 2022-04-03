@@ -67,7 +67,11 @@ async function colorBoard() {
 }
 
 function validateBoard() {
-     if (currentWord.length == 5 && checkWord()) {
+     if(currentRow >= 6) {
+          alert("Cry about it")
+          won = true
+          return
+     } else if (currentWord.length == 5 && checkWord()) {
           if (checkSolution()) return true
           return true
      } else if (currentWord.length < 5) {
