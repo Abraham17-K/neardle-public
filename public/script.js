@@ -5,10 +5,12 @@ const colors = []
 var currentDistance = [];
 var currentWord = [];
 var currentRow = 0;
+var won = false;
 // console.log(Math.abs('a'.charCodeAt(0)-'c'.charCodeAt(0)))
 
 //Listens for keypresses
 document.addEventListener("keydown", (e) => {
+     if(won == true) return
      if(e.key == "Backspace") {
           currentWord.pop()
           updateBoard();
@@ -58,8 +60,8 @@ function colorBoard() {
 
 function validateBoard() {
      if (currentWord.length == 5 && checkWord()) {
-          currentWord = []
           if (checkSolution()) return
+          currentWord = []
           currentRow++
      } else if (currentWord.length < 5) {
           alert("Word is too short");
@@ -70,11 +72,22 @@ function validateBoard() {
      }   
 }
 
+//TODO fix for cookies
 function checkSolution() {
-     getWord()
+     let solution = getWord()
+     if (toWord() == solution) {
+          alert("You got it!") //TODO add something better later
+          won = true
+          return true
+     } else {
+          return false;
+     }
 }
 
 function getWord() {
-     console.log(Date.now())
-     return answers[Date.now() % answers.length]
+     return answers[Math.floor(Date.now()/86400000 % answers.length)]
+}
+
+function makeCookie(maxAge, won, currentRow, row1, row1Color, row2, row2Color, row3, row3Color, row4, row4Color, row5, row5Color, row6, row6Color) {
+     
 }
