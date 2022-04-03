@@ -2,8 +2,7 @@
 const express = require('express');
 const app = express();
 const port = 3000;
-
-app.use("/bootstrap", express.static(__dirname + '/node_modules/bootstrap/dist'));
+const fs = require('fs')
 
 //Express Static
 app.use(express.static('public'));

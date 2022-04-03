@@ -1,10 +1,10 @@
-var board = document.getElementById("board");
+const board = document.getElementById("board");
+const rows = board.children
+const correct = "#68cf30"
+const colors = []
+var currentDistance = [];
 var currentWord = [];
 var currentRow = 0;
-var rows = board.children
-var currentDistance = [];
-var correct = "#68cf30"
-var colors = []
 // console.log(Math.abs('a'.charCodeAt(0)-'c'.charCodeAt(0)))
 
 //Listens for keypresses
@@ -22,7 +22,6 @@ document.addEventListener("keydown", (e) => {
           currentWord.push(e.key.toLocaleLowerCase())
      }
      updateBoard()
-     console.log(currentWord)
 });
 
 //Converts the array of currentWord to a string
@@ -58,9 +57,9 @@ function colorBoard() {
 }
 
 function validateBoard() {
-     console.log(currentWord.length)
      if (currentWord.length == 5 && checkWord()) {
           currentWord = []
+          if (checkSolution()) return
           currentRow++
      } else if (currentWord.length < 5) {
           alert("Word is too short");
@@ -68,5 +67,14 @@ function validateBoard() {
      } else {
           alert("Word is not in the dictionary");
           return;
-     }
+     }   
+}
+
+function checkSolution() {
+     getWord()
+}
+
+function getWord() {
+     console.log(Date.now())
+     return answers[Date.now() % answers.length]
 }
