@@ -78,8 +78,9 @@ function validateBoard() {
 
 //TODO fix for cookies
 function checkSolution() {
-     let solution = getWord()
+     let solution = ge
      if (toWord() == solution) {
+     //if (toWord() == "better") {
           alert("You got it!") //TODO add something better later
           won = true
           return true

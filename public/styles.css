@@ -19,7 +19,7 @@ nav {
 }
 
 .title {
-     background: linear-gradient(to right, #68cf30, red);
+     background: linear-gradient(to right, #72cb1f, #ff0000);
      color: transparent;
      -webkit-background-clip: text;
      background-clip: text;
