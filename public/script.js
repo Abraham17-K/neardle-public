@@ -52,12 +52,15 @@ function updateBoard() {
      }
 }
 
-function colorBoard() {
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+
+async function colorBoard() {
      let solution = getWord()
      let slots = rows[currentRow].children
      for(let i = 0; i < 5; i++) {
           let color = Math.abs(currentWord[i].charCodeAt()-solution.charCodeAt(i))
           rows[currentRow].children[i].style.backgroundColor = gradient[color]
+          await sleep(300)
      }
      currentWord = []
      currentRow++
@@ -78,7 +81,7 @@ function validateBoard() {
 
 //TODO fix for cookies
 function checkSolution() {
-     let solution = ge
+     let solution = getWord()
      if (toWord() == solution) {
      //if (toWord() == "better") {
           alert("You got it!") //TODO add something better later
@@ -95,4 +98,25 @@ function getWord() {
 
 function makeCookie(maxAge, won, currentRow, row1, row1Color, row2, row2Color, row3, row3Color, row4, row4Color, row5, row5Color, row6, row6Color) {
      
+}
+
+function input(key) {
+     if(won === true) return
+     if(key == "Backspace") {
+          currentWord.pop()
+          updateBoard();
+     }
+     else if(key == "Enter") {
+          if (validateBoard() === true) {
+               colorBoard()
+          }
+     }
+     else if(currentWord.length >= 5) return
+     else {
+          key = key.toLocaleUpperCase()
+          if(key.charCodeAt(0) >= 65 && key.charCodeAt(0) <= 90) {
+               currentWord.push(key.toLocaleLowerCase())
+          }
+     }
+     updateBoard()
 }

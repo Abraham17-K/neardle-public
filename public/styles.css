@@ -42,7 +42,7 @@ nav {
      display: grid;
      grid-template-columns: repeat(5, 64px);
      height: 1fr;
-     gap: 10px;
+     gap: 5px;
      width: 100%;
      justify-content: center;
      align-content: center;
@@ -88,4 +88,16 @@ nav {
      height: 50px;
      min-width: 35px;
      padding: 5px;
+}
+.key button {
+     font-size: 20px;
+     border: none
+}
+
+.backspace {
+     min-width: 50px;
+}
+
+.block {
+     transition: background-color 1s;
 }
