@@ -102,3 +102,26 @@ nav {
 .block {
      transition: background-color 1s;
 }
+
+.popup {
+     position: absolute;
+     display: inline-block;
+     background-color: #323336;
+     border-radius: 15px;
+     padding: 0px;
+     z-index: 99;
+     text-align: center;
+
+     animation: fadeIn 1.5s fadeOut 1.5s;
+     
+}
+
+@keyframes fadeIn {
+     from {visibility: hidden;}
+     to {visibility: visible;}
+}
+
+@keyframes fadeOut {
+     from {visibility: visible;}
+     to {visibility: hidden;}
+}

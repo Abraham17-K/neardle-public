@@ -5,6 +5,7 @@ var currentDistance = [];
 var currentWord = [];
 var currentRow = 0;
 var won = false;
+//const word = Math.floor(Math.random() * answers.length)
 const gradient = ['#130FB9', '#72cb1f', '#7bc701', '#84c300', '#8cbf00', '#94ba00', '#9bb600', '#a2b100', '#a9ac00', '#b0a700', '#b7a200', '#bd9c00', '#c39600', '#c99000', '#cf8a00', '#d58300', '#da7c00', '#e07500', '#e56d00', '#e96400', '#ee5b00', '#f25100', '#f64500', '#f93800', '#fc2500', '#ff0000']
 //Listens for keypresses
 document.addEventListener("keydown", (e) => {
@@ -68,17 +69,17 @@ async function colorBoard() {
 
 function validateBoard() {
      if(currentRow >= 6) {
-          alert("Cry about it")
+          makePopup("Cry about it", 1000)
           won = true
           return
      } else if (currentWord.length == 5 && checkWord()) {
           if (checkSolution()) return true
           return true
      } else if (currentWord.length < 5) {
-          alert("Word is too short");
+          makePopup("Word is too short", 1000);
           return false;
      } else {
-          alert("Word is not in the dictionary");
+          makePopup("Word is not in the dictionary", 1000);
           return false;
      }   
 }
@@ -88,7 +89,7 @@ function checkSolution() {
      let solution = getWord()
      if (toWord() == solution) {
      //if (toWord() == "better") {
-          alert("You got it!") //TODO add something better later
+          makePopup("You got it!", 1000) //TODO add something better later
           won = true
           return true
      } else {
@@ -98,6 +99,7 @@ function checkSolution() {
 
 function getWord() {
      return answers[Math.floor(Date.now()/86400000 % answers.length)]
+     // return answers[word]
 }
 
 function makeCookie(maxAge, won, currentRow, row1, row1Color, row2, row2Color, row3, row3Color, row4, row4Color, row5, row5Color, row6, row6Color) {
@@ -123,4 +125,26 @@ function input(key) {
           }
      }
      updateBoard()
+}
+
+async function makePopup(text, time) {
+     const body = document.getElementById("body");
+     const popup = document.createElement("h1");
+     popup.classList.add("popup")
+     const popupText = document.createTextNode(text);
+     popup.appendChild(popupText)
+     popup.style.visibility = "hidden"
+     body.appendChild(popup)
+     const width = popup.clientWidth
+     const height = popup.clientHeight
+     popup.style.width = `${width + 60}px`
+     popup.style.height = `${height + 30}px`
+     popup.style.lineHeight = `${height + 30}px`
+     popup.style.bottom = `${window.innerHeight * 0.75}px`
+     popup.style.left = `${(window.innerWidth / 2) - popup.clientWidth / 2}px`
+     popup.style.visibility = "visible"
+
+     await sleep(time)
+     popup.style.visibility = "hidden"
+     popup.remove()
 }
