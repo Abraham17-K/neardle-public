@@ -9,7 +9,7 @@ body {
      font-family: 'Quicksand', sans-serif;
 }
 
-nav {
+.page-title {
      background-color: #1e1e1e;
      width: 100vw;
      height: 50px;
@@ -58,6 +58,8 @@ nav {
      height: 64px;
      justify-content: center;
      align-content: center;
+
+     transition: background-color 1s;
 }
 
 .keyboard {
@@ -89,9 +91,12 @@ nav {
      min-width: 20px;
      padding: 5px;
 }
+
+
 .key button {
      font-size: 15px;
-     border: none
+     border: none;
+     /* z-index: 0; */
 }
 
 .backspace {
@@ -99,8 +104,12 @@ nav {
      cursor:pointer;
 }
 
-.block {
+.hblock {
      transition: background-color 1s;
+}
+
+.hidden {
+     visibility: hidden;
 }
 
 .popup {
@@ -111,8 +120,14 @@ nav {
      padding: 0px;
      z-index: 99;
      text-align: center;
+     overflow:hidden;
+     visibility:"";
+     /* TODO figure out why 100% is smaller than default */
+     font-size:100%;
 
-     animation: fadeIn 1.5s fadeOut 1.5s;
+
+     transition: visible 1s;
+     /* animation: fadeIn 1.5s fadeOut 1.5s; */
      
 }
 
@@ -124,4 +139,63 @@ nav {
 @keyframes fadeOut {
      from {visibility: visible;}
      to {visibility: hidden;}
+}
+
+.directionPopup {
+     position: absolute;
+     background-color: #323336;
+     border-radius: 30px;
+     overflow: hidden;
+     padding: 0px;
+}
+
+.center {
+     text-align: center;
+     float:center;
+}
+
+.button {
+     background-color: inherit;
+     border: none;
+     margin-right: 15px;
+     margin-top: 15px;
+     display: inline;
+     position: relative;
+}
+
+.popup-header {
+     /* background-color:#ffffff; */
+     background-color: inherit;
+     display: block;
+     justify-content: center;
+     align-content: center;
+}
+.navbar-right {
+     display: inline-block;
+     text-align: right;
+     float: right;
+   }
+
+.navbar-left {
+display: inline-block;
+text-align: left;
+float: left;
+}
+
+#directionsHeading {
+     margin: 0px;
+     padding: 0px;
+     display:inline-block;
+     position: relative;
+     width: 70%;
+}
+
+.directionsText {
+
+}
+.directions .row {
+     transform: scale();
+}
+.block {
+     
 }

@@ -5,8 +5,12 @@ var currentDistance = [];
 var currentWord = [];
 var currentRow = 0;
 var won = false;
-//const word = Math.floor(Math.random() * answers.length)
+const sleep = ms => new Promise(r => setTimeout(r, ms));
 const gradient = ['#130FB9', '#72cb1f', '#7bc701', '#84c300', '#8cbf00', '#94ba00', '#9bb600', '#a2b100', '#a9ac00', '#b0a700', '#b7a200', '#bd9c00', '#c39600', '#c99000', '#cf8a00', '#d58300', '#da7c00', '#e07500', '#e56d00', '#e96400', '#ee5b00', '#f25100', '#f64500', '#f93800', '#fc2500', '#ff0000']
+
+window.onload = function() {
+     makeDirections()
+}
 //Listens for keypresses
 document.addEventListener("keydown", (e) => {
      if(won === true) return
@@ -19,6 +23,8 @@ document.addEventListener("keydown", (e) => {
                colorBoard()
           }
 
+     } else if(e.key == "Escape") {
+          closeDirections()
      }
      else if(currentWord.length >= 5) return
      else if(e.keyCode >= 65 && e.keyCode <= 90) {
@@ -53,8 +59,6 @@ function updateBoard() {
      }
 }
 
-const sleep = ms => new Promise(r => setTimeout(r, ms));
-
 async function colorBoard() {
      let solution = getWord()
      let slots = rows[currentRow].children
@@ -88,8 +92,7 @@ function validateBoard() {
 function checkSolution() {
      let solution = getWord()
      if (toWord() == solution) {
-     //if (toWord() == "better") {
-          makePopup("You got it!", 1000) //TODO add something better later
+          makePopup("You got it!", 1000)
           won = true
           return true
      } else {
@@ -99,14 +102,18 @@ function checkSolution() {
 
 function getWord() {
      return answers[Math.floor(Date.now()/86400000 % answers.length)]
-     // return answers[word]
 }
 
-function makeCookie(maxAge, won, currentRow, row1, row1Color, row2, row2Color, row3, row3Color, row4, row4Color, row5, row5Color, row6, row6Color) {
-     
+
+async function colorKey(key) {
+     key.style.backgroundColor = "#434242"
+     sleep(1000)
+     key.style.backgroundColor = "#5e5e5e"
 }
 
-function input(key) {
+function input(e, key) {
+     console.log(e)
+     colorKey(e);
      if(won === true) return
      if(key == "Backspace") {
           currentWord.pop()
@@ -127,6 +134,7 @@ function input(key) {
      updateBoard()
 }
 
+//TODO make it so there can only be one popup at a time
 async function makePopup(text, time) {
      const body = document.getElementById("body");
      const popup = document.createElement("h1");
@@ -137,8 +145,11 @@ async function makePopup(text, time) {
      body.appendChild(popup)
      const width = popup.clientWidth
      const height = popup.clientHeight
+
+     //TODO sub for margins, you idiot
      popup.style.width = `${width + 60}px`
      popup.style.height = `${height + 30}px`
+     
      popup.style.lineHeight = `${height + 30}px`
      popup.style.bottom = `${window.innerHeight * 0.75}px`
      popup.style.left = `${(window.innerWidth / 2) - popup.clientWidth / 2}px`
@@ -148,3 +159,30 @@ async function makePopup(text, time) {
      popup.style.visibility = "hidden"
      popup.remove()
 }
+
+function makeDirections() {
+     const popup = document.getElementById("directionPopup")
+     popup.style.width = `${window.innerWidth * 0.84}px`
+     popup.style.height = `${window.innerHeight * 0.84}px`
+     popup.style.top = `${window.innerHeight * 0.08}px`
+     popup.style.left = `${window.innerWidth * 0.08}px`
+
+     popup.classList.remove("hidden")
+
+}
+
+function closeDirections() {
+     const game = document.getElementById("gameBoard")
+     const popup = document.getElementById("directionPopup")
+     popup.classList.add("hidden")
+     game.classList.remove("hidden")
+     document.removeEventListener("keyDown", function(e) {
+          console.log(e.key)
+          if(e.key == "Escape") {
+               closeDirections()
+          }
+     })
+}
+
+
+var scale = Math.min()
