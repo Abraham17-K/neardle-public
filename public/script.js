@@ -4,7 +4,7 @@ const colors = ["#68cf30", ]
 var currentDistance = [];
 var currentWord = [];
 var currentRow = 0;
-var won = false;
+var won = true;
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 const gradient = ['#130FB9', '#72cb1f', '#7bc701', '#84c300', '#8cbf00', '#94ba00', '#9bb600', '#a2b100', '#a9ac00', '#b0a700', '#b7a200', '#bd9c00', '#c39600', '#c99000', '#cf8a00', '#d58300', '#da7c00', '#e07500', '#e56d00', '#e96400', '#ee5b00', '#f25100', '#f64500', '#f93800', '#fc2500', '#ff0000']
 
@@ -13,6 +13,9 @@ window.onload = function() {
 }
 //Listens for keypresses
 document.addEventListener("keydown", (e) => {
+      if(e.key == "Escape") {
+          closeDirections()
+     }
      if(won === true) return
      if(e.key == "Backspace") {
           currentWord.pop()
@@ -23,8 +26,6 @@ document.addEventListener("keydown", (e) => {
                colorBoard()
           }
 
-     } else if(e.key == "Escape") {
-          closeDirections()
      }
      else if(currentWord.length >= 5) return
      else if(e.keyCode >= 65 && e.keyCode <= 90) {
@@ -65,6 +66,7 @@ async function colorBoard() {
      for(let i = 0; i < 5; i++) {
           let color = Math.abs(currentWord[i].charCodeAt()-solution.charCodeAt(i))
           rows[currentRow].children[i].style.backgroundColor = gradient[color]
+          console.log(gradient[color])
           await sleep(300)
      }
      currentWord = []
@@ -176,13 +178,12 @@ function closeDirections() {
      const popup = document.getElementById("directionPopup")
      popup.classList.add("hidden")
      game.classList.remove("hidden")
-     document.removeEventListener("keyDown", function(e) {
-          console.log(e.key)
-          if(e.key == "Escape") {
-               closeDirections()
-          }
-     })
+     won = false;
 }
 
 
-var scale = Math.min()
+
+
+function makeDirectionsRow() {
+     const tiles = gameBoard.getElementByClass
+}
