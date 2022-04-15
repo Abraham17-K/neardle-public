@@ -20,16 +20,19 @@
      <nav class="page-title">
           <h1 class="title">Neardle</h1>
      </nav>
-     <section class="sharePopup hidden" id="sharePopup">
+     <section class="popupContainer sharePopup hidden" id="sharePopup">
           <nav class="sharePopupHeader center popup-header">
                <ul>
-                    <li style="display:none;" class="navbar-right"><button class="button navbar-left closeButton" onclick="closeShare()">X</button></li>
-                    <li class="center"><h1><span class="title">Neardle</span></h1></li>
                     <li class="navbar-right"><button class="button navbar-right closeButton" onclick="closeShare()">X</button></li>
+                    <li class="center" style = "clear: both;"><h1><span class="title">Neardle</span></h1></li> <!-- TODO Good for now, try to move logo up later -->
                </ul>
+               <button class="buttonShare" onclick="shareGame()"><span class="glyphicon glyphicon-share"></span> Share</button>
+               <p id="results"></p>
           </nav>
+               
+          
      </section>
-     <section class="directionPopup hidden container-fluid" id="directionPopup">
+     <section class=" popupContainer directionPopup hidden container-fluid" id="directionPopup">
           <div class="container-fluid">
                <nav class="popup-header center">
                     <button style="z-index:99;" class="button navbar-left" > </button>
@@ -38,19 +41,18 @@
                     <hr>
                     <p>To play Neardle, enter a real 5 letter word then press enter. The letters will become colored.</p>
                     <br>
-                    <div class="row directions">
-                         <h1 class = "block" style = "background-color:#d58300;">H</h1>
-                         <h1 class = "block" style = "background-color:#cf8a00;">A</h1>
-                         <h1 class = "block" style = "background-color:#72cb1f;">P</h1>
-                         <h1 class = "block" style = "background-color:#b7a200;">P</h1>
-                         <h1 class = "block" style = "background-color:#130FB9;">Y</h1>
+                    <div class="row directions directions-row-container"> <!--TODO User CSS flexbox to make on mobile-->
+                              <h1 class = "block" style = "background-color:#d58300;">H</h1>
+                              <h1 class = "block" style = "background-color:#cf8a00;">A</h1>
+                              <h1 class = "block" style = "background-color:#72cb1f;">P</h1>
+                              <h1 class = "block" style = "background-color:#b7a200;">P</h1>
+                              <h1 class = "block" style = "background-color:#130FB9;">Y</h1>
                          <br>
                     </div>
                     <div class="center">
                          <p class="directions-text">The letters are colored along a gradient from red to green. The closer to red, the farther away in the alphabet that slot is from the correct letter. The closer to green, the closer it is in the alphabet. If a letter turns blue, it is correct.</p>
                     </div>
                     <br>
-                    <!-- TODO make a gradient display bar-->
                </nav>
                <div class = "gradient-display-container" style="width: 100%">
                     <h1 class="gradient-display display-bar">&#8203</h1>

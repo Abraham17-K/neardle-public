@@ -18,8 +18,8 @@ const blueEmoji = String.fromCodePoint(0x1F7E6)
 const whiteEmoji = String.fromCodePoint(0x2B1C)
 
 window.onload = function () {
-     // makeDirections()
-     makeSharePopup()
+     makeDirections()
+     // makeSharePopup()
 }
 //Listens for keypresses
 document.addEventListener("keydown", (e) => {
@@ -86,6 +86,7 @@ function validateBoard() {
      if (currentRow >= 6) {
           makePopup("Cry about it", 1000)
           won = true
+          makeSharePopup()
           return
      } else if (currentWord.length == 5 && checkWord()) {
           if (checkSolution()) return true
@@ -105,6 +106,7 @@ function checkSolution() {
      if (toWord() == solution) {
           makePopup("You got it!", 1000)
           won = true
+          makeSharePopup()
           return true
      } else {
           return false;
@@ -145,6 +147,7 @@ function input(e, key) {
 }
 
 //TODO make it so there can only be one popup at a time
+//TOOD redo later with CSS so less sloppy
 async function makePopup(text, time) {
      const body = document.getElementById("body");
      const popup = document.createElement("h1");
@@ -171,10 +174,10 @@ async function makePopup(text, time) {
 
 function makeDirections() {
      const popup = document.getElementById("directionPopup")
-     popup.style.width = `${window.innerWidth * 0.84}px`
-     popup.style.height = `${window.innerHeight * 0.84}px`
-     popup.style.top = `${window.innerHeight * 0.08}px`
-     popup.style.left = `${window.innerWidth * 0.08}px`
+     // popup.style.width = `${window.innerWidth * 0.84}px`
+     // popup.style.height = `${window.innerHeight * 0.84}px`
+     // popup.style.top = `${window.innerHeight * 0.08}px`
+     // popup.style.left = `${window.innerWidth * 0.08}px`
 
      popup.classList.remove("hidden")
 
@@ -188,8 +191,10 @@ function closeDirections() {
      won = false;
 }
 function closeShare() {
+     const board = document.getElementById("gameBoard")
      const popup = document.getElementById("sharePopup")
      popup.classList.add("hidden")
+     board.classList.remove("hidden")
 }
 
 
@@ -202,24 +207,38 @@ function makeDirectionsRow() {
 
 function makeSharePopup() {
      const popup = document.getElementById("sharePopup")
-     // popup.style.width = `${window.innerWidth * 0.84}px`
-     // popup.style.height = `${window.innerHeight * 0.84}px`
-     // popup.style.top = `${window.innerHeight * 0.08}px`
-     // popup.style.left = `${window.innerWidth * 0.08}px`
+     const gameBoard = document.getElementById("gameBoard")
 
+     gameBoard.classList.add("hidden")
      popup.classList.remove("hidden")
 }
 
+//thanks StackOverflow
+async function detectMobile() {
+     const toMatch = [
+          /Android/i,
+          /webOS/i,
+          /iPhone/i,
+          /iPad/i,
+          /iPod/i,
+          /BlackBerry/i,
+          /Windows Phone/i
+     ];
+     return toMatch.some((toMatchItem) => {
+          return navigator.userAgent.match(toMatchItem);
+     });
+}
 
-function shareGame() {
-     if (detectMobile()) {
+async function shareGame() {
+     await sleep(1000)
+     if (detectMobile() == true) {
 
      } else {
           let firstTime = 1;
-          let emojis = getEmojis()
+          let emojis = getEmojis(true)
           let message = ``
-          if (won == true) {message = `Neardle ${currentRow} / 6\n`}
-          else {message = `Neardle ? / 6\n`}
+          if (won == true) { message = `Neardle ${currentRow} / 6\n` }
+          else { message = `Neardle ? / 6\n` }
           for (let i = 0; i < 6; i++) {
                let row = ""
                for (let j = 0; j < 5; j++) {
@@ -236,40 +255,28 @@ function shareGame() {
                }
           }
           console.log(message)
+          let result = document.getElementById("results")
+          result.innerText = String.fromCodePoint(0x1F7E7)
+          makePopup("Copied to clipboard!", 1000)
      }
 }
 
-function detectMobile() {
-     const toMatch = [
-         /Android/i,
-         /webOS/i,
-         /iPhone/i,
-         /iPad/i,
-         /iPod/i,
-         /BlackBerry/i,
-         /Windows Phone/i
-     ];
-     return false
-     // return toMatch.some((toMatchItem) => {
-     //     return navigator.userAgent.match(toMatchItem);
-     // });
- }
 
 //Returns board in capital leters in a 2d array
- function getBoard() { //TODO user later for sessions too
-      if (currentRow == 0) return
-      let boardArray = []
-      for (let i = 0; i < currentRow; i++) {
-           let row = []
+function getBoard() { //TODO user later for sessions too
+     if (currentRow == 0) return
+     let boardArray = []
+     for (let i = 0; i < currentRow; i++) {
+          let row = []
           for (let j = 0; j < 5; j++) {
-              row[j] = rows[i].children[j].innerText
+               row[j] = rows[i].children[j].innerText
           }
           boardArray.push(row)
-      }
-      return boardArray
- }
+     }
+     return boardArray
+}
 
- function getBoardColors() { //TODO user later for sessions
+function getBoardColors() { //TODO user later for sessions
      let board = getBoard()
      if (!board) return;
      let solution = getWord()
@@ -282,35 +289,56 @@ function detectMobile() {
           colorArray.push(colorRow)
      }
      return colorArray
- }
+}
 
- function expandArray(array) {
-      for (let i = 0; i < 6; i++) {
-           let row = []
-           for (let j = 0; j < 5; j++) {
-                if (array[i][j] == undefined) {
-                     row[j] = " "
-                }
-           }
-           array.push(row)
-      }
-      return array
- }
+function expandArray(array) {
+     for (let i = 0; i < 6; i++) {
+          let row = []
+          for (let j = 0; j < 5; j++) {
+               if (array[i][j] == undefined) {
+                    row[j] = " "
+               }
+          }
+          array.push(row)
+     }
+     return array
+}
 
- function getEmojis() {
+function getEmojis(rendered) {
+     let redEmoji = ""
+     let orangeEmoji = ""
+     let yellowEmoji = ""
+     let greenEmoji = ""
+     let blueEmoji = ""
+     let whiteEmoji = ""
+     if (rendered == true) {
+          redEmoji = String.fromCodePoint(0x1F7E5)
+          orangeEmoji = String.fromCodePoint(0x1F7E7)
+          yellowEmoji = String.fromCodePoint(0x1F7E8)
+          greenEmoji = String.fromCodePoint(0x1F7E9)
+          blueEmoji = String.fromCodePoint(0x1F7E6)
+          whiteEmoji = String.fromCodePoint(0x2B1C)
+     } else {
+          redEmoji = "0x1F7E5"
+          orangeEmoji = "0x1F7E7"
+          yellowEmoji = "0x1F7E8"
+          greenEmoji = "0x1F7E9"
+          blueEmoji = "0x1F7E6"
+          whiteEmoji = "0x2B1C"
+     }
      if (!getBoard()) return
-      let boardColors = expandArray(getBoardColors())
-      var emojiArray = []
-      for (let i = 0; i < 6; i++) {
+     let boardColors = expandArray(getBoardColors())
+     var emojiArray = []
+     for (let i = 0; i < 6; i++) {
           let rowArray = []
           for (let j = 0; j < 5; j++) {
                if (gradient.indexOf(boardColors[i][j]) == 0) {
                     rowArray[j] = blueEmoji
-               } else if (gradient.indexOf(boardColors[i][j]) >= 1 && gradient.indexOf(boardColors[i][j]) <= 7 ) {
+               } else if (gradient.indexOf(boardColors[i][j]) >= 1 && gradient.indexOf(boardColors[i][j]) <= 7) {
                     rowArray[j] = greenEmoji
-               } else if (gradient.indexOf(boardColors[i][j]) >= 8 && gradient.indexOf(boardColors[i][j]) <= 12 ) {
+               } else if (gradient.indexOf(boardColors[i][j]) >= 8 && gradient.indexOf(boardColors[i][j]) <= 12) {
                     rowArray[j] = yellowEmoji
-               } else if (gradient.indexOf(boardColors[i][j]) >= 13 && gradient.indexOf(boardColors[i][j]) <= 18 ) {
+               } else if (gradient.indexOf(boardColors[i][j]) >= 13 && gradient.indexOf(boardColors[i][j]) <= 18) {
                     rowArray[j] = orangeEmoji
                } else if (gradient.indexOf(boardColors[i][j]) >= 19 && gradient.indexOf(boardColors[i][j]) <= 26) {
                     rowArray[j] = redEmoji
@@ -319,7 +347,7 @@ function detectMobile() {
                }
           }
           emojiArray.push(rowArray)
-      }
-      console.log(emojiArray)
-      return emojiArray
- }
+     }
+     console.log(emojiArray)
+     return emojiArray
+}
