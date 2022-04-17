@@ -162,10 +162,7 @@ async function makePopup(text, time) {
      popup.style.bottom = `${window.innerHeight * 0.75}px`
      popup.style.left = `${(window.innerWidth / 2) - popup.clientWidth / 2}px`
      popup.style.visibility = "visible"
-     let gameTiles = getElementsByClass("directions-tile")
-     for (let i = 0; i < 5; i++) {
-          gameTiles[i].style.height = gameTiles[i].clientWidth
-     }
+     
 
      await sleep(time)
      popup.style.visibility = "hidden"
@@ -174,8 +171,12 @@ async function makePopup(text, time) {
 
 function makeDirections() {
      const popup = document.getElementById("directionPopup")
+     let gameTiles = document.getElementsByClassName("directions-tile")
      popup.classList.remove("hidden")
-
+     for (let i = 0; i < 5; i++) {
+          gameTiles[i].style.height = gameTiles[i].style.width
+          console.log(gameTiles[i].style.width)
+     }
 }
 
 function closeDirections() {
