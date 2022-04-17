@@ -83,7 +83,7 @@ async function colorBoard() {
 }
 
 function validateBoard() {
-     if (currentRow >= 5){
+     if (currentRow >= 5) {
           colorBoard()
           makePopup(`The word was ${getWord()}. Cry about it.`, 1000)
           won = true
@@ -158,14 +158,14 @@ async function makePopup(text, time) {
      body.appendChild(popup)
      const width = popup.clientWidth
      const height = popup.clientHeight
-
-     //TODO sub for margins, you idiot
-     popup.style.width = `${width + 60}px`
-     popup.style.height = `${height + 30}px`
      popup.style.lineHeight = `${height + 30}px`
      popup.style.bottom = `${window.innerHeight * 0.75}px`
      popup.style.left = `${(window.innerWidth / 2) - popup.clientWidth / 2}px`
      popup.style.visibility = "visible"
+     let gameTiles = getElementsByClass("directions-tile")
+     for (let i = 0; i < 5; i++) {
+          gameTiles[i].style.height = gameTiles[i].clientWidth
+     }
 
      await sleep(time)
      popup.style.visibility = "hidden"
@@ -174,11 +174,6 @@ async function makePopup(text, time) {
 
 function makeDirections() {
      const popup = document.getElementById("directionPopup")
-     // popup.style.width = `${window.innerWidth * 0.84}px`
-     // popup.style.height = `${window.innerHeight * 0.84}px`
-     // popup.style.top = `${window.innerHeight * 0.08}px`
-     // popup.style.left = `${window.innerWidth * 0.08}px`
-
      popup.classList.remove("hidden")
 
 }
@@ -202,7 +197,7 @@ function makeDirectionsRow() {
 }
 
 async function makeSharePopup() {
-     await sleep(1000)
+     await sleep(1500)
      const popup = document.getElementById("sharePopup")
      const gameBoard = document.getElementById("gameBoard")
      const results = document.getElementById("results")
@@ -214,34 +209,30 @@ async function makeSharePopup() {
 async function shareGame() {
      await sleep(1000)
      let message = ""
-          let emojiFinal = getEmojis(true)
-          if (won == true) {
-               message = `Neardle - ${currentRow} / 6\n`
-          } else {
-               message = `Neardle - ? / 6\n`
-          }
-          message += emojiFinal
-          console.log(message)
-     if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+     let emojiFinal = getEmojis(true)
+     if (won == true) {
+          message = `Neardle - ${currentRow} / 6\n`
+     } else {
+          message = `Neardle - ? / 6\n`
+     }
+     message += emojiFinal
+     console.log(message)
+     if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
           results.innerText = message
-          shareMobile(message)
+          const shareMessage = {
+               title: "Neardle",
+               text: `${message}`
+          }
+          navigator.share(shareMessage)
+          // shareMobile(message)
      } else {
           navigator.clipboard.writeText(message).then(() => {
                makePopup("Copied to clipboard!", 1000)
                results.innerText = message
-          }, function(err) {
+          }, function (err) {
                makePopup("Failed to copy to clipboard.", 1000)
           });
      }
-}
-
-//Only separate because async code must be run at the top level for some reason
-async function shareMobile(message) {
-     const shareMessage = {
-          title: "Neardle",
-          text: `${message}`
-     }
-     await navigator.share(shareMessage)
 }
 
 //Returns board in capital leters in a 2d array
@@ -293,7 +284,7 @@ function getEmojis(rendered) {
      let greenEmoji = "🟩"
      let blueEmoji = "🟦"
      let whiteEmoji = "⬜"
-     if(!rendered) {
+     if (!rendered) {
           redEmoji = "0x1F7E5"
           orangeEmoji = "0x1F7E7"
           yellowEmoji = "0x1F7E8"
@@ -322,7 +313,7 @@ function getEmojis(rendered) {
                     rowArray += whiteEmoji
                }
           }
-          emojiArray += rowArray 
+          emojiArray += rowArray
           emojiArray += "\n"
      }
      return emojiArray

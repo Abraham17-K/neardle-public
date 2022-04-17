@@ -101,7 +101,7 @@ body {
 
 .backspace {
      min-width: 50px;
-     cursor:pointer;
+     cursor: pointer;
 }
 
 .hblock {
@@ -109,7 +109,7 @@ body {
 }
 
 .hidden {
-     display:none;
+     display: none;
 }
 
 .popup {
@@ -117,31 +117,42 @@ body {
      display: inline-block;
      background-color: #323336;
      border-radius: 15px;
-     padding: 0px;
+     padding: 10px, 5px, 10px, 5px;
      z-index: 990;
      text-align: center;
-     overflow:hidden;
-     visibility:"";
-     /* TODO figure out why 100% is smaller than default */
-     font-size:100%;
-     border-color:white;
-     border-style:solid;
-     border-width:2px;
+     overflow: hidden;
+     visibility: "";
+     font-size: 100%;
+     border-color: white;
+     border-style: solid;
+     border-width: 2px;
+     padding-left: 10px;
+     padding-right: 10px;
 
 
      transition: visible 1s;
      /* animation: fadeIn 1.5s fadeOut 1.5s; */
-     
+
 }
 
 @keyframes fadeIn {
-     from {visibility: hidden;}
-     to {visibility: visible;}
+     from {
+          visibility: hidden;
+     }
+
+     to {
+          visibility: visible;
+     }
 }
 
 @keyframes fadeOut {
-     from {visibility: visible;}
-     to {visibility: hidden;}
+     from {
+          visibility: visible;
+     }
+
+     to {
+          visibility: hidden;
+     }
 }
 
 .directionPopup {
@@ -154,7 +165,7 @@ body {
 
 .center {
      text-align: center;
-     float:center;
+     float: center;
 }
 
 .button {
@@ -172,6 +183,7 @@ body {
      justify-content: center;
      align-content: center;
 }
+
 .navbar-right {
      display: inline-block;
      text-align: right;
@@ -191,13 +203,15 @@ body {
      display: inline-block;
      position: relative;
      width: 70%;
+     vertical-align: middle;
 }
 
 .directions {
      width: 100%;
 }
+
 .directions .block {
-     position:relative;
+     position: relative;
 }
 
 .directions-text {
@@ -210,27 +224,30 @@ body {
      width: 75%;
      background: linear-gradient(to left, #72cb1f, #ff0000);
      color: transparent;
-     float:left;
+     float: left;
      padding-right: 5px;
 }
+
 .answer-display {
 
-     float:right;
+     float: right;
      width: 25%;
      background: #130FB9;
      color: transparent;
 }
 
 .gradient-display-container {
-     position:absolute;
+     position: absolute;
      justify-content: center;
-     float:center;
+     float: center;
      align-content: center;
-     padding: 10px;
+     padding-left: 10px;
+     padding-right: 10px;
+     margin-bottom:50px;
 }
 
 .display-bar {
-     position:relative;
+     position: relative;
      border: 2px solid #4e4e4e;
      border-radius: 5px;
      display: grid;
@@ -253,7 +270,7 @@ nav ul {
      overflow: hidden;
      background-color: inherit;
      /* display:inline-block; */
-     display:grid inline;
+     display: grid inline;
 }
 
 .sharePopupHeading {
@@ -270,8 +287,8 @@ nav ul {
      position: absolute;
      width: 90%;
      height: calc(90% - 50px);
-     float:center;
-     z-index:100;
+     float: center;
+     z-index: 100;
 }
 
 .buttonShare {
@@ -280,11 +297,31 @@ nav ul {
      width: 20wh;
      height: 5vh;
      border-radius: 5px;
-     border-style:solid;
-     border-color:white;
-     display:inline-block;
+     border-style: solid;
+     border-color: white;
+     display: inline-block;
 }
 
 #results {
-     padding-top:3%;
+     padding-top: 3%;
+}
+
+.directions-row-container {
+     position:relative;
+     display: flex;
+     flex-direction: row;
+     float:center;
+     margin:auto;
+     justify-content: center;
+     align-content: center;
+     padding-left: 5px;
+     padding-right: 5px;
+}
+
+.directions-row-container .block {
+
+     flex-grow: 1;
+     height: 64px;
+     max-width: 64px;
+     margin:2.5px
 }

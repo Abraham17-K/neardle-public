@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+<!-- To all who read this code, it is still in development, I know it's sloppy. -->
 
 <head>
      <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css">
@@ -13,7 +14,6 @@
      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
      <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300&display=swap" rel="stylesheet">
      <script src="wordlists.js"></script>
-
 </head>
 
 <body id="body">
@@ -22,37 +22,45 @@
      </nav>
      <section class="popupContainer sharePopup hidden" id="sharePopup">
           <nav class="sharePopupHeader center popup-header">
-                    <button class="button navbar-right closeButton" onclick="closeShare()">X</button>
-                    <h1 style="clear:both;"><span class="title">Neardle</span></h1> <!-- TODO Good for now, try to move logo up later -->
-               <button class="buttonShare" onclick="shareGame()"><span class="glyphicon glyphicon-share"></span> Share</button>
+               <button class="button navbar-right closeButton" onclick="closeShare()">X</button>
+               <h1 style="clear:both;"><span class="title">Neardle</span></h1>
+               <!-- TODO Good for now, try to move logo up later -->
+               <button class="buttonShare" onclick="shareGame()"><span class="glyphicon glyphicon-share"></span>
+                    Share</button>
                <p id="results"></p>
+               <p class="directions-text">Thanks for playing! The next Neardle is at midnight UTC!</p>
           </nav>
-               
-          
+
+
      </section>
      <section class=" popupContainer directionPopup hidden container-fluid" id="directionPopup">
           <div class="container-fluid">
                <nav class="popup-header center">
-                    <button style="z-index:99;" class="button navbar-left" > </button>
+                    <button style="z-index:99;" class="button navbar-left"> </button>
                     <h1 class="directionsHeading">Welcome to <span class="title">Neardle</span></h1>
                     <button style="z-index:99;" class="button navbar-right" onclick="closeDirections()">X</button>
                     <hr>
-                    <p>To play Neardle, enter a real 5 letter word then press enter. The letters will become colored.</p>
+                    <p>To play Neardle, enter a real 5 letter word then press enter. The letters will become colored.
+                    </p>
                     <br>
-                    <div class="row directions directions-row-container"> <!--TODO User CSS flexbox to make on mobile-->
-                              <h1 class = "block" style = "background-color:#d58300;">H</h1>
-                              <h1 class = "block" style = "background-color:#cf8a00;">A</h1>
-                              <h1 class = "block" style = "background-color:#72cb1f;">P</h1>
-                              <h1 class = "block" style = "background-color:#b7a200;">P</h1>
-                              <h1 class = "block" style = "background-color:#130FB9;">Y</h1>
-                         <br>
+                    <div class="directions directions-row-container">
+                         <!--TODO User CSS flexbox to make on mobile-->
+                         <h1 class="block directions-tile" style="background-color:#d58300;">H</h1>
+                         <h1 class="block directions-tile" style="background-color:#cf8a00;">A</h1>
+                         <h1 class="block directions-tile" style="background-color:#72cb1f;">P</h1>
+                         <h1 class="block directions-tile" style="background-color:#b7a200;">P</h1>
+                         <h1 class="block directions-tile" style="background-color:#130FB9;">Y</h1>
                     </div>
+                    <br>
                     <div class="center">
-                         <p class="directions-text">The letters are colored along a gradient from red to green. The closer to red, the farther away in the alphabet that slot is from the correct letter. The closer to green, the closer it is in the alphabet. If a letter turns blue, it is correct.</p>
+                         <p class="directions-text">The letters are colored along a gradient from red to green. The
+                              closer to red, the farther away in the alphabet that slot is from the correct letter. The
+                              closer to green, the closer it is in the alphabet. If a letter turns blue, it is correct.
+                         </p>
                     </div>
-                    <br>
+                    
                </nav>
-               <div class = "gradient-display-container" style="width: 100%">
+               <div class="gradient-display-container" style="width: 100%">
                     <h1 class="gradient-display display-bar">&#8203</h1>
                     <h1 class="answer-display display-bar">&#8203</h1>
                </div>
