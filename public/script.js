@@ -1,8 +1,8 @@
 //TODO Fix so that if delete is pressed while coloring it doesn't mess up
+//TODO HUGE PROBLEM - if your on your last guess, it is always wrong
 
 const board = document.getElementById("board");
 const rows = board.children
-const colors = ["#68cf30",]
 var currentDistance = [];
 var currentWord = [];
 var currentRow = 0;
@@ -72,9 +72,9 @@ function updateBoard() {
 
 async function colorBoard() {
      let solution = getWord()
-     let slots = rows[currentRow].children
      for (let i = 0; i < 5; i++) {
-          let color = Math.abs(currentWord[i].charCodeAt() - solution.charCodeAt(i))
+          /*charCodeAt(0) might be wrong*/
+          let color = Math.abs(currentWord[i].charCodeAt(0) - solution.charCodeAt(i))
           rows[currentRow].children[i].style.backgroundColor = gradient[color]
           await sleep(300)
      }
@@ -83,8 +83,9 @@ async function colorBoard() {
 }
 
 function validateBoard() {
-     if (currentRow >= 6) {
-          makePopup("Cry about it", 1000)
+     if (currentRow >= 5){
+          colorBoard()
+          makePopup(`The word was ${getWord()}. Cry about it.`, 1000)
           won = true
           makeSharePopup()
           return
@@ -116,7 +117,6 @@ function checkSolution() {
 function getWord() {
      return answers[Math.floor(Date.now() / 86400000 % answers.length)]
 }
-
 
 async function colorKey(key) {
      key.style.backgroundColor = "#434242"
@@ -197,70 +197,52 @@ function closeShare() {
      board.classList.remove("hidden")
 }
 
-
-
-
 function makeDirectionsRow() {
      const tiles = gameBoard.getElementByClass
 }
 
-
-function makeSharePopup() {
+async function makeSharePopup() {
+     await sleep(1000)
      const popup = document.getElementById("sharePopup")
      const gameBoard = document.getElementById("gameBoard")
+     const results = document.getElementById("results")
 
      gameBoard.classList.add("hidden")
      popup.classList.remove("hidden")
 }
 
-//thanks StackOverflow
-async function detectMobile() {
-     const toMatch = [
-          /Android/i,
-          /webOS/i,
-          /iPhone/i,
-          /iPad/i,
-          /iPod/i,
-          /BlackBerry/i,
-          /Windows Phone/i
-     ];
-     return toMatch.some((toMatchItem) => {
-          return navigator.userAgent.match(toMatchItem);
-     });
-}
-
 async function shareGame() {
      await sleep(1000)
-     if (detectMobile() == true) {
-
-     } else {
-          let firstTime = 1;
-          let emojis = getEmojis(true)
-          let message = ``
-          if (won == true) { message = `Neardle ${currentRow} / 6\n` }
-          else { message = `Neardle ? / 6\n` }
-          for (let i = 0; i < 6; i++) {
-               let row = ""
-               for (let j = 0; j < 5; j++) {
-                    let currentRow = emojis[i]
-                    row += currentRow[j]
-               }
-               console.log(row)
-               if (firstTime == 1) {
-                    message.concat(row)
-                    firstTime = 0
-               } else {
-                    message.concat("\n")
-                    message.concat(row)
-               }
+     let message = ""
+          let emojiFinal = getEmojis(true)
+          if (won == true) {
+               message = `Neardle - ${currentRow} / 6\n`
+          } else {
+               message = `Neardle - ? / 6\n`
           }
+          message += emojiFinal
           console.log(message)
-          let result = document.getElementById("results")
-          result.innerText = String.fromCodePoint(0x1F7E7)
-          makePopup("Copied to clipboard!", 1000)
+     if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+          results.innerText = message
+          shareMobile(message)
+     } else {
+          navigator.clipboard.writeText(message).then(() => {
+               makePopup("Copied to clipboard!", 1000)
+               results.innerText = message
+          }, function(err) {
+               makePopup("Failed to copy to clipboard.", 1000)
+          });
      }
 }
 
+//Only separate because async code must be run at the top level for some reason
+async function shareMobile(message) {
+     const shareMessage = {
+          title: "Neardle",
+          text: `${message}`
+     }
+     await navigator.share(shareMessage)
+}
 
 //Returns board in capital leters in a 2d array
 function getBoard() { //TODO user later for sessions too
@@ -305,20 +287,13 @@ function expandArray(array) {
 }
 
 function getEmojis(rendered) {
-     let redEmoji = ""
-     let orangeEmoji = ""
-     let yellowEmoji = ""
-     let greenEmoji = ""
-     let blueEmoji = ""
-     let whiteEmoji = ""
-     if (rendered == true) {
-          redEmoji = String.fromCodePoint(0x1F7E5)
-          orangeEmoji = String.fromCodePoint(0x1F7E7)
-          yellowEmoji = String.fromCodePoint(0x1F7E8)
-          greenEmoji = String.fromCodePoint(0x1F7E9)
-          blueEmoji = String.fromCodePoint(0x1F7E6)
-          whiteEmoji = String.fromCodePoint(0x2B1C)
-     } else {
+     let redEmoji = "🟥"
+     let orangeEmoji = "🟧"
+     let yellowEmoji = "🟨"
+     let greenEmoji = "🟩"
+     let blueEmoji = "🟦"
+     let whiteEmoji = "⬜"
+     if(!rendered) {
           redEmoji = "0x1F7E5"
           orangeEmoji = "0x1F7E7"
           yellowEmoji = "0x1F7E8"
@@ -327,27 +302,28 @@ function getEmojis(rendered) {
           whiteEmoji = "0x2B1C"
      }
      if (!getBoard()) return
-     let boardColors = expandArray(getBoardColors())
-     var emojiArray = []
-     for (let i = 0; i < 6; i++) {
+     // let boardColors = expandArray(getBoardColors()) //Not needed as WORDLE doesn't do this
+     let boardColors = getBoardColors()
+     var emojiArray = ""
+     for (let i = 0; i < boardColors.length; i++) {
           let rowArray = []
           for (let j = 0; j < 5; j++) {
                if (gradient.indexOf(boardColors[i][j]) == 0) {
-                    rowArray[j] = blueEmoji
+                    rowArray += blueEmoji
                } else if (gradient.indexOf(boardColors[i][j]) >= 1 && gradient.indexOf(boardColors[i][j]) <= 7) {
-                    rowArray[j] = greenEmoji
+                    rowArray += greenEmoji
                } else if (gradient.indexOf(boardColors[i][j]) >= 8 && gradient.indexOf(boardColors[i][j]) <= 12) {
-                    rowArray[j] = yellowEmoji
+                    rowArray += yellowEmoji
                } else if (gradient.indexOf(boardColors[i][j]) >= 13 && gradient.indexOf(boardColors[i][j]) <= 18) {
-                    rowArray[j] = orangeEmoji
+                    rowArray += orangeEmoji
                } else if (gradient.indexOf(boardColors[i][j]) >= 19 && gradient.indexOf(boardColors[i][j]) <= 26) {
-                    rowArray[j] = redEmoji
+                    rowArray += redEmoji
                } else {
-                    rowArray[j] = whiteEmoji
+                    rowArray += whiteEmoji
                }
           }
-          emojiArray.push(rowArray)
+          emojiArray += rowArray 
+          emojiArray += "\n"
      }
-     console.log(emojiArray)
      return emojiArray
 }

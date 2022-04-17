@@ -22,10 +22,8 @@
      </nav>
      <section class="popupContainer sharePopup hidden" id="sharePopup">
           <nav class="sharePopupHeader center popup-header">
-               <ul>
-                    <li class="navbar-right"><button class="button navbar-right closeButton" onclick="closeShare()">X</button></li>
-                    <li class="center" style = "clear: both;"><h1><span class="title">Neardle</span></h1></li> <!-- TODO Good for now, try to move logo up later -->
-               </ul>
+                    <button class="button navbar-right closeButton" onclick="closeShare()">X</button>
+                    <h1 style="clear:both;"><span class="title">Neardle</span></h1> <!-- TODO Good for now, try to move logo up later -->
                <button class="buttonShare" onclick="shareGame()"><span class="glyphicon glyphicon-share"></span> Share</button>
                <p id="results"></p>
           </nav>
@@ -36,7 +34,7 @@
           <div class="container-fluid">
                <nav class="popup-header center">
                     <button style="z-index:99;" class="button navbar-left" > </button>
-                    <h1 id="directionsHeading">Welcome to <span class="title">Neardle</span></h1>
+                    <h1 class="directionsHeading">Welcome to <span class="title">Neardle</span></h1>
                     <button style="z-index:99;" class="button navbar-right" onclick="closeDirections()">X</button>
                     <hr>
                     <p>To play Neardle, enter a real 5 letter word then press enter. The letters will become colored.</p>
