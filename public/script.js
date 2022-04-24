@@ -1,5 +1,4 @@
 //TODO Fix so that if delete is pressed while coloring it doesn't mess up
-//TODO HUGE PROBLEM - if your on your last guess, it is always wrong
 
 const board = document.getElementById("board");
 const rows = board.children
@@ -7,6 +6,7 @@ var currentDistance = [];
 var currentWord = [];
 var currentRow = 0;
 var won = true;
+var coloring = false;
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 const gradient = ['#130FB9', '#72cb1f', '#7bc701', '#84c300', '#8cbf00', '#94ba00', '#9bb600', '#a2b100', '#a9ac00', '#b0a700', '#b7a200', '#bd9c00', '#c39600', '#c99000', '#cf8a00', '#d58300', '#da7c00', '#e07500', '#e56d00', '#e96400', '#ee5b00', '#f25100', '#f64500', '#f93800', '#fc2500', '#ff0000']
 
@@ -19,12 +19,16 @@ const whiteEmoji = String.fromCodePoint(0x2B1C)
 
 window.onload = function () {
      makeDirections()
-     // makeSharePopup()
 }
 //Listens for keypresses
 document.addEventListener("keydown", (e) => {
+     if (coloring === true) return
      if (e.key == "Escape") {
-          closeDirections()
+          if ((document.getElementById("sharePopup").classList.contains("hidden")) === true) {
+               closeDirections()
+          } else {
+               closeShare()
+          }
      }
      if (won === true) return
      if (e.key == "Backspace") {
@@ -55,7 +59,7 @@ function toWord() {
 }
 
 function checkWord() {
-     let word = toWord(currentWord)
+     let word = toWord()
      return (accepted.includes(word) || answers.includes(word))
 }
 
@@ -71,51 +75,66 @@ function updateBoard() {
 }
 
 async function colorBoard() {
+     coloring = true
      let solution = getWord()
      for (let i = 0; i < 5; i++) {
-          /*charCodeAt(0) might be wrong*/
           let color = Math.abs(currentWord[i].charCodeAt(0) - solution.charCodeAt(i))
           rows[currentRow].children[i].style.backgroundColor = gradient[color]
           await sleep(300)
      }
-     currentWord = []
+     if (previousWord != getWord()) {
+          clearBoard()
+     }
      currentRow++
+     currentWord = []
+     coloring = false
 }
 
 function validateBoard() {
-     if (currentRow >= 5) {
-          colorBoard()
-          makePopup(`The word was ${getWord()}. Cry about it.`, 1000)
-          won = true
-          makeSharePopup()
-          return
-     } else if (currentWord.length == 5 && checkWord()) {
+     if (currentWord.length == 5 && checkWord()) {
           if (checkSolution()) return true
           return true
      } else if (currentWord.length < 5) {
-          makePopup("Word is too short", 1000);
-          return false;
+          makePopup("Word is too short", 1000)
+          return false
      } else {
-          makePopup("Word is not in the dictionary", 1000);
-          return false;
+          makePopup("Word is not in the dictionary", 1000)
+          return false
      }
 }
 
-//TODO fix for cookies
 function checkSolution() {
      let solution = getWord()
      if (toWord() == solution) {
           makePopup("You got it!", 1000)
           won = true
-          makeSharePopup()
+          makeSharePopup(true)
           return true
      } else {
-          return false;
+          if (currentRow >= 5) {
+               makePopup(`The word was ${getWord()}. Cry about it.`, 1000)
+               won = true
+               makeSharePopup(true)
+               return false
+          }
+          return false
      }
 }
 
+function clearBoard() {
+     makePopup(`The word was ${previousWord}. Now the puzzle has switched to today's!`, 3000)
+     for (var i = 0; i < 6; i++) {
+          for (let j = 0; j < 5; j++) {
+               rows[i].children[j].style.backgroundColor = "transparent"
+               rows[i].children[j].innerText = ""
+          }
+     }
+     currentRow = 1
+}
+var previousWord = answers[Math.floor(Date.now() / 86400000 % answers.length)]
 function getWord() {
-     return answers[Math.floor(Date.now() / 86400000 % answers.length)]
+     let word = answers[Math.floor(Date.now() / 86400000 % answers.length)]
+     return word
 }
 
 async function colorKey(key) {
@@ -146,27 +165,32 @@ function input(e, key) {
      updateBoard()
 }
 
-//TODO make it so there can only be one popup at a time
-//TOOD redo later with CSS so less sloppy
-async function makePopup(text, time) {
-     const body = document.getElementById("body");
-     const popup = document.createElement("h1");
-     popup.classList.add("popup")
-     const popupText = document.createTextNode(text);
-     popup.appendChild(popupText)
-     popup.style.visibility = "hidden"
-     body.appendChild(popup)
-     const width = popup.clientWidth
-     const height = popup.clientHeight
-     popup.style.lineHeight = `${height + 30}px`
-     popup.style.bottom = `${window.innerHeight * 0.75}px`
-     popup.style.left = `${(window.innerWidth / 2) - popup.clientWidth / 2}px`
-     popup.style.visibility = "visible"
-     
 
-     await sleep(time)
-     popup.style.visibility = "hidden"
-     popup.remove()
+//TODO redo later with CSS so less sloppy
+var notificationShowing = 0;
+async function makePopup(text, time) {
+     if (notificationShowing == 0) {
+          notificationShowing = 1
+          const body = document.getElementById("body")
+          const popup = document.createElement("h1")
+          popup.classList.add("popup")
+          const popupText = document.createTextNode(text)
+          popup.appendChild(popupText)
+          popup.style.visibility = "hidden"
+          body.appendChild(popup)
+          const width = popup.clientWidth
+          const height = popup.clientHeight
+          popup.style.paddingTop = `${15}px`
+          popup.style.paddingBottom = `${15}px`
+          popup.style.top = `${window.innerHeight * 0.1}px`
+          popup.style.left = `${(window.innerWidth / 2) - popup.clientWidth / 2}px`
+          popup.style.visibility = "visible"
+
+          await sleep(time)
+          popup.style.visibility = "hidden"
+          popup.remove()
+     }
+     notificationShowing = 0
 }
 
 function makeDirections() {
@@ -175,7 +199,6 @@ function makeDirections() {
      popup.classList.remove("hidden")
      for (let i = 0; i < 5; i++) {
           gameTiles[i].style.height = gameTiles[i].style.width
-          console.log(gameTiles[i].style.width)
      }
 }
 
@@ -189,20 +212,21 @@ function closeDirections() {
 function closeShare() {
      const board = document.getElementById("gameBoard")
      const popup = document.getElementById("sharePopup")
+     const smallButton = document.getElementById("share-body")
      popup.classList.add("hidden")
+     smallButton.classList.remove("hidden")
      board.classList.remove("hidden")
 }
 
-function makeDirectionsRow() {
-     const tiles = gameBoard.getElementByClass
-}
-
-async function makeSharePopup() {
-     await sleep(1500)
+async function makeSharePopup(delay) {
+     if (delay) {
+          await sleep(1500)
+     }
+     const shareButtonBody = document.getElementById("share-body")
      const popup = document.getElementById("sharePopup")
      const gameBoard = document.getElementById("gameBoard")
-     const results = document.getElementById("results")
 
+     shareButtonBody.classList.add("hidden")
      gameBoard.classList.add("hidden")
      popup.classList.remove("hidden")
 }
@@ -214,10 +238,9 @@ async function shareGame() {
      if (won == true) {
           message = `Neardle - ${currentRow} / 6\n`
      } else {
-          message = `Neardle - ? / 6\n`
+          message = `Neardle - ${Math.floor(Date.now() / 86400000 % answers.length)} - ${currentRow} / 6\n`
      }
      message += emojiFinal
-     console.log(message)
      if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
           results.innerText = message
           const shareMessage = {
@@ -225,13 +248,13 @@ async function shareGame() {
                text: `${message}`
           }
           navigator.share(shareMessage)
-          // shareMobile(message)
      } else {
           navigator.clipboard.writeText(message).then(() => {
                makePopup("Copied to clipboard!", 1000)
                results.innerText = message
-          }, function (err) {
+          }, (err) => {
                makePopup("Failed to copy to clipboard.", 1000)
+               throw err
           });
      }
 }
@@ -294,7 +317,6 @@ function getEmojis(rendered) {
           whiteEmoji = "0x2B1C"
      }
      if (!getBoard()) return
-     // let boardColors = expandArray(getBoardColors()) //Not needed as WORDLE doesn't do this
      let boardColors = getBoardColors()
      var emojiArray = ""
      for (let i = 0; i < boardColors.length; i++) {

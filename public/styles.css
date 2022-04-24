@@ -16,6 +16,7 @@ body {
      display: grid;
      justify-content: center;
      align-content: center;
+     vertical-align: middle;
 }
 
 .title {
@@ -63,13 +64,15 @@ body {
 }
 
 .keyboard {
-     display: grid;
      justify-content: center;
      align-content: center;
      height: 200px;
      padding-top: 10px;
-     width: 100%;
+     max-width: 500px;
+     width: 100vw;
      gap: 10px;
+     padding-left: 10px;
+     padding-right: 10px;
 }
 
 .key-row {
@@ -78,30 +81,42 @@ body {
      gap: 5px;
      width: 100%;
      justify-content: center;
+     touch-action: manipulation;
 }
 
 .key {
+     margin-bottom: 5px;
      background-color: #5e5e5e;
      border-radius: 5px;
-     display: grid;
      justify-content: center;
      align-content: center;
-     font-size: 12px;
+     font-size: 15px;
      height: 50px;
      min-width: 20px;
      padding: 5px;
+     border: none;
+     flex: 1;
+}
+
+.half-key {
+     flex: 0.5;
+     margin-bottom: 5px;
+     border-radius: 5px;
+     font-size: 15px;
+     height: 50px;
+     padding: 5px;
+     border: none;
 }
 
 
-.key button {
-     font-size: 15px;
-     border: none;
-     /* z-index: 0; */
+.backspace,
+.enter {
+     cursor: pointer;
+     flex: 1.5;
 }
 
 .backspace {
-     min-width: 50px;
-     cursor: pointer;
+     font-size: 20px;
 }
 
 .hblock {
@@ -109,7 +124,7 @@ body {
 }
 
 .hidden {
-     display: none;
+     display: none !important;
 }
 
 .popup {
@@ -133,26 +148,6 @@ body {
      transition: visible 1s;
      /* animation: fadeIn 1.5s fadeOut 1.5s; */
 
-}
-
-@keyframes fadeIn {
-     from {
-          visibility: hidden;
-     }
-
-     to {
-          visibility: visible;
-     }
-}
-
-@keyframes fadeOut {
-     from {
-          visibility: visible;
-     }
-
-     to {
-          visibility: hidden;
-     }
 }
 
 .directionPopup {
@@ -182,17 +177,22 @@ body {
      display: block;
      justify-content: center;
      align-content: center;
+     position: relative;
+}
+
+.popup-heading {
+     display: inline;
+     font-size: 30px;
+     font-weight: bold;
 }
 
 .navbar-right {
-     display: inline-block;
      text-align: right;
      float: right;
 }
 
 
 .navbar-left {
-     display: inline-block;
      text-align: left;
      float: left;
 }
@@ -229,7 +229,6 @@ body {
 }
 
 .answer-display {
-
      float: right;
      width: 25%;
      background: #130FB9;
@@ -243,7 +242,7 @@ body {
      align-content: center;
      padding-left: 10px;
      padding-right: 10px;
-     margin-bottom:50px;
+     margin-bottom: 50px;
 }
 
 .display-bar {
@@ -269,17 +268,41 @@ nav ul {
      padding: 0;
      overflow: hidden;
      background-color: inherit;
-     /* display:inline-block; */
      display: grid inline;
 }
 
-.sharePopupHeading {
-     background-color: inherit;
-     display: block;
-     justify-content: center;
-     align-content: center;
+.center-popup-header {
+     position: inherit;
+     top: 10px;
+     text-align: center;
 }
 
+.closeButton {
+     background-color: transparent;
+     border: none;
+     padding: 20px 20px 0px 0px;
+     display: inline;
+     position: absolute;
+     top: -10px;
+     right: 0;
+}
+
+header {
+     display: flex;
+     flex-direction: row;
+     justify-content: space-between;
+     align-items: center;
+     flex-wrap: nowrap;
+}
+
+.sharePopupHeader {
+     display: grid;
+}
+
+.right-popup-header {
+     display: flex;
+     justify-content: flex-end;
+}
 
 .popupContainer {
      left: 5%;
@@ -299,19 +322,23 @@ nav ul {
      border-radius: 5px;
      border-style: solid;
      border-color: white;
-     display: inline-block;
 }
 
+.share-popup-content {
+     text-align: center;
+}
+
+
 #results {
-     padding-top: 3%;
+     padding-top: 10px;
 }
 
 .directions-row-container {
-     position:relative;
+     position: relative;
      display: flex;
      flex-direction: row;
-     float:center;
-     margin:auto;
+     float: center;
+     margin: auto;
      justify-content: center;
      align-content: center;
      padding-left: 5px;
@@ -323,5 +350,13 @@ nav ul {
      flex-grow: 1;
      height: 64px;
      max-width: 64px;
-     margin:2.5px
+     margin: 2.5px
+}
+
+.body-buttonShare {
+     display: inline;
+     position: absolute;
+     left: 0;
+     top: calc(25px - 2.5vh);
+     margin-left: 10px;
 }

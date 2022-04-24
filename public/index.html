@@ -18,252 +18,205 @@
 
 <body id="body">
      <nav class="page-title">
+          <button class="hidden buttonShare body-buttonShare" id="share-body" onclick="makeSharePopup(false)"><span
+                    class="glyphicon glyphicon-share"></span> Share</button>
           <h1 class="title">Neardle</h1>
      </nav>
      <section class="popupContainer sharePopup hidden" id="sharePopup">
-          <nav class="sharePopupHeader center popup-header">
-               <button class="button navbar-right closeButton" onclick="closeShare()">X</button>
-               <h1 style="clear:both;"><span class="title">Neardle</span></h1>
-               <!-- TODO Good for now, try to move logo up later -->
+          <header class="sharePopupHeader popup-header">
+               <div class="center-popup-header">
+                    <span class="title popup-heading">Neardle</span>
+               </div>
+               <div>
+                    <button class="closeButton" onclick="closeShare()">X</button>
+               </div>
+          </header>
+          <div class="share-popup-content">
+               <hr>
                <button class="buttonShare" onclick="shareGame()"><span class="glyphicon glyphicon-share"></span>
                     Share</button>
                <p id="results"></p>
+               <br>
                <p class="directions-text">Thanks for playing! The next Neardle is at midnight UTC!</p>
-          </nav>
-
-
+          </div>
      </section>
-     <section class=" popupContainer directionPopup hidden container-fluid" id="directionPopup">
-          <div class="container-fluid">
-               <nav class="popup-header center">
-                    <button style="z-index:99;" class="button navbar-left"> </button>
-                    <h1 class="directionsHeading">Welcome to <span class="title">Neardle</span></h1>
-                    <button style="z-index:99;" class="button navbar-right" onclick="closeDirections()">X</button>
-                    <hr>
-                    <p>To play Neardle, enter a real 5 letter word then press enter. The letters will become colored.
-                    </p>
-                    <br>
-                    <div class="directions directions-row-container">
-                         <!--TODO User CSS flexbox to make on mobile-->
-                         <h1 class="block directions-tile" style="background-color:#d58300;">H</h1>
-                         <h1 class="block directions-tile" style="background-color:#cf8a00;">A</h1>
-                         <h1 class="block directions-tile" style="background-color:#72cb1f;">P</h1>
-                         <h1 class="block directions-tile" style="background-color:#b7a200;">P</h1>
-                         <h1 class="block directions-tile" style="background-color:#130FB9;">Y</h1>
-                    </div>
-                    <br>
-                    <div class="center">
-                         <p class="directions-text">The letters are colored along a gradient from red to green. The
-                              closer to red, the farther away in the alphabet that slot is from the correct letter. The
-                              closer to green, the closer it is in the alphabet. If a letter turns blue, it is correct.
-                         </p>
-                    </div>
-                    
-               </nav>
-               <div class="gradient-display-container" style="width: 100%">
-                    <h1 class="gradient-display display-bar">&#8203</h1>
-                    <h1 class="answer-display display-bar">&#8203</h1>
+     <section class="popupContainer directionPopup hidden container-fluid" id="directionPopup">
+          <header class="sharePopupHeader popup-header">
+               <div class="center-popup-header">
+                    <span class="title popup-heading">Neardle</span>
                </div>
+               <div>
+                    <button class="closeButton" onclick="closeDirections()">X</button>
+               </div>
+          </header>
+          <hr>
+          <p class="directions-text">To play Neardle, enter a real 5 letter word then press enter. The letters will
+               become colored.
+          </p>
+          <br>
+          <div class="directions directions-row-container">
+               <h1 class="block directions-tile" style="background-color:#d58300;">H</h1>
+               <h1 class="block directions-tile" style="background-color:#cf8a00;">A</h1>
+               <h1 class="block directions-tile" style="background-color:#72cb1f;">P</h1>
+               <h1 class="block directions-tile" style="background-color:#b7a200;">P</h1>
+               <h1 class="block directions-tile" style="background-color:#130FB9;">Y</h1>
+          </div>
+          <br>
+          <div class="center">
+               <p class="directions-text">The letters are colored along a gradient from red to green. The
+                    closer to red, the farther away in the alphabet the letter in that slot is from the
+                    correct letter. The
+                    closer to green, the closer it is in the alphabet. If a letter turns blue, it is correct.
+               </p>
+          </div>
+          <div class="gradient-display-container" style="width: 100%">
+               <h1 class="gradient-display display-bar">&#8203</h1>
+               <h1 class="answer-display display-bar">&#8203</h1>
           </div>
      </section>
      <section id="gameBoard" class="hidden">
-          <div class="container-fluid">
-               <div class="content">
-                    <div id="board" class="board">
-                         <div class="row">
-                              <div class="block">
-                                   <h1>&#8203</h1>
-                              </div>
-                              <div class="block">
-                                   <h1>&#8203</h1>
-                              </div>
-                              <div class="block">
-                                   <h1>&#8203</h1>
-                              </div>
-                              <div class="block">
-                                   <h1>&#8203</h1>
-                              </div>
-                              <div class="block">
-                                   <h1>&#8203</h1>
-                              </div>
+          <div class="content">
+               <div id="board" class="board">
+                    <div class="row">
+                         <div class="block">
+                              <h1>&#8203</h1>
                          </div>
-                         <div class="row">
-                              <div class="block">
-                                   <h1>&#8203</h1>
-                              </div>
-                              <div class="block">
-                                   <h1>&#8203</h1>
-                              </div>
-                              <div class="block">
-                                   <h1>&#8203</h1>
-                              </div>
-                              <div class="block">
-                                   <h1>&#8203</h1>
-                              </div>
-                              <div class="block">
-                                   <h1>&#8203</h1>
-                              </div>
+                         <div class="block">
+                              <h1>&#8203</h1>
                          </div>
-                         <div class="row">
-                              <div class="block">
-                                   <h1>&#8203</h1>
-                              </div>
-                              <div class="block">
-                                   <h1>&#8203</h1>
-                              </div>
-                              <div class="block">
-                                   <h1>&#8203</h1>
-                              </div>
-                              <div class="block">
-                                   <h1>&#8203</h1>
-                              </div>
-                              <div class="block">
-                                   <h1>&#8203</h1>
-                              </div>
+                         <div class="block">
+                              <h1>&#8203</h1>
                          </div>
-                         <div class="row">
-                              <div class="block">
-                                   <h1>&#8203</h1>
-                              </div>
-                              <div class="block">
-                                   <h1>&#8203</h1>
-                              </div>
-                              <div class="block">
-                                   <h1>&#8203</h1>
-                              </div>
-                              <div class="block">
-                                   <h1>&#8203</h1>
-                              </div>
-                              <div class="block">
-                                   <h1>&#8203</h1>
-                              </div>
+                         <div class="block">
+                              <h1>&#8203</h1>
                          </div>
-                         <div class="row">
-                              <div class="block">
-                                   <h1>&#8203</h1>
-                              </div>
-                              <div class="block">
-                                   <h1>&#8203</h1>
-                              </div>
-                              <div class="block">
-                                   <h1>&#8203</h1>
-                              </div>
-                              <div class="block">
-                                   <h1>&#8203</h1>
-                              </div>
-                              <div class="block">
-                                   <h1>&#8203</h1>
-                              </div>
-                         </div>
-                         <div class="row">
-                              <div class="block">
-                                   <h1>&#8203</h1>
-                              </div>
-                              <div class="block">
-                                   <h1>&#8203</h1>
-                              </div>
-                              <div class="block">
-                                   <h1>&#8203</h1>
-                              </div>
-                              <div class="block">
-                                   <h1>&#8203</h1>
-                              </div>
-                              <div class="block">
-                                   <h1>&#8203</h1>
-                              </div>
+                         <div class="block">
+                              <h1>&#8203</h1>
                          </div>
                     </div>
-                    <div class="keyboard">
-                         <div class="key-row">
-                              <div class="key">
-                                   <button class="key" key="q" onclick="input(this, 'q')">Q</button>
-                              </div>
-                              <div class="key">
-                                   <button class="key" key="w" onclick="input(this, 'w')">W</button>
-                              </div>
-                              <div class="key">
-                                   <button class="key" key="e" onclick="input(this, 'e')">E</button>
-                              </div>
-                              <div class="key">
-                                   <button class="key" key="r" onclick="input(this, 'r')">R</button>
-                              </div>
-                              <div class="key">
-                                   <button class="key" key="t" onclick="input(this, 't')">T</button>
-                              </div>
-                              <div class="key">
-                                   <button class="key" key="y" onclick="input(this, 'y')">Y</button>
-                              </div>
-                              <div class="key">
-                                   <button class="key" key="u" onclick="input(this, 'u')">U</button>
-                              </div>
-                              <div class="key">
-                                   <button class="key" key="i" onclick="input(this, 'i')">I</button>
-                              </div>
-                              <div class="key">
-                                   <button class="key" key="o" onclick="input(this, 'o')">O</button>
-                              </div>
-                              <div class="key">
-                                   <button class="key" key="p" onclick="input(this, 'p')">P</button>
-                              </div>
+                    <div class="row">
+                         <div class="block">
+                              <h1>&#8203</h1>
                          </div>
-                         <div class="key-row">
-                              <div class="key">
-                                   <button class="key" key="a" onclick="input(this, 'a')">A</button>
-                              </div>
-                              <div class="key">
-                                   <button class="key" key="s" onclick="input(this, 's')">S</button>
-                              </div>
-                              <div class="key">
-                                   <button class="key" key="d" onclick="input(this, 'd')">D</button>
-                              </div>
-                              <div class="key">
-                                   <button class="key" key="f" onclick="input(this, 'f')">F</button>
-                              </div>
-                              <div class="key">
-                                   <button class="key" key="g" onclick="input(this, 'g')">G</button>
-                              </div>
-                              <div class="key">
-                                   <button class="key" key="h" onclick="input(this, 'h')">H</button>
-                              </div>
-                              <div class="key">
-                                   <button class="key" key="j" onclick="input(this, 'j')">J</button>
-                              </div>
-                              <div class="key">
-                                   <button class="key" key="k" onclick="input(this, 'k')">K</button>
-                              </div>
-                              <div class="key">
-                                   <button class="key" key="l" onclick="input(this, 'l')">L</button>
-                              </div>
+                         <div class="block">
+                              <h1>&#8203</h1>
                          </div>
-                         <div class="key-row">
-                              <div class="key">
-                                   <button class="key" key="enter" onclick="input(this, 'Enter')">Enter</button>
-                              </div>
-                              <div class="key">
-                                   <button class="key" key="z" onclick="input(this, 'z')">Z</button>
-                              </div>
-                              <div class="key">
-                                   <button class="key" key="x" onclick="input(this, 'x')">X</button>
-                              </div>
-                              <div class="key">
-                                   <button class="key" key="c" onclick="input(this, 'c')">C</button>
-                              </div>
-                              <div class="key">
-                                   <button class="key" key="v" onclick="input(this, 'v')">V</button>
-                              </div>
-                              <div class="key">
-                                   <button class="key" key="b" onclick="input(this, 'b')">B</button>
-                              </div>
-                              <div class="key">
-                                   <button class="key" key="n" onclick="input(this, 'n')">N</button>
-                              </div>
-                              <div class="key">
-                                   <button class="key" key="m" onclick="input(this, 'm')">M</button>
-                              </div>
-                              <div class="key backspace" key="backspace" onclick="input(this, 'Backspace')">
-                                   <h1><span class="glyphicon glyphicon-step-backward"></h1>
-                              </div>
+                         <div class="block">
+                              <h1>&#8203</h1>
                          </div>
+                         <div class="block">
+                              <h1>&#8203</h1>
+                         </div>
+                         <div class="block">
+                              <h1>&#8203</h1>
+                         </div>
+                    </div>
+                    <div class="row">
+                         <div class="block">
+                              <h1>&#8203</h1>
+                         </div>
+                         <div class="block">
+                              <h1>&#8203</h1>
+                         </div>
+                         <div class="block">
+                              <h1>&#8203</h1>
+                         </div>
+                         <div class="block">
+                              <h1>&#8203</h1>
+                         </div>
+                         <div class="block">
+                              <h1>&#8203</h1>
+                         </div>
+                    </div>
+                    <div class="row">
+                         <div class="block">
+                              <h1>&#8203</h1>
+                         </div>
+                         <div class="block">
+                              <h1>&#8203</h1>
+                         </div>
+                         <div class="block">
+                              <h1>&#8203</h1>
+                         </div>
+                         <div class="block">
+                              <h1>&#8203</h1>
+                         </div>
+                         <div class="block">
+                              <h1>&#8203</h1>
+                         </div>
+                    </div>
+                    <div class="row">
+                         <div class="block">
+                              <h1>&#8203</h1>
+                         </div>
+                         <div class="block">
+                              <h1>&#8203</h1>
+                         </div>
+                         <div class="block">
+                              <h1>&#8203</h1>
+                         </div>
+                         <div class="block">
+                              <h1>&#8203</h1>
+                         </div>
+                         <div class="block">
+                              <h1>&#8203</h1>
+                         </div>
+                    </div>
+                    <div class="row">
+                         <div class="block">
+                              <h1>&#8203</h1>
+                         </div>
+                         <div class="block">
+                              <h1>&#8203</h1>
+                         </div>
+                         <div class="block">
+                              <h1>&#8203</h1>
+                         </div>
+                         <div class="block">
+                              <h1>&#8203</h1>
+                         </div>
+                         <div class="block">
+                              <h1>&#8203</h1>
+                         </div>
+                    </div>
+               </div>
+               <div class="keyboard">
+                    <div class="key-row">
+                         <button class="key" key="q" onclick="input(this, 'q')">Q</button>
+                         <button class="key" key="w" onclick="input(this, 'w')">W</button>
+                         <button class="key" key="e" onclick="input(this, 'e')">E</button>
+                         <button class="key" key="r" onclick="input(this, 'r')">R</button>
+                         <button class="key" key="t" onclick="input(this, 't')">T</button>
+                         <button class="key" key="y" onclick="input(this, 'y')">Y</button>
+                         <button class="key" key="u" onclick="input(this, 'u')">U</button>
+                         <button class="key" key="i" onclick="input(this, 'i')">I</button>
+                         <button class="key" key="o" onclick="input(this, 'o')">O</button>
+                         <button class="key" key="p" onclick="input(this, 'p')">P</button>
+                    </div>
+                    <div class="key-row">
+                         <div class="half-key"></div>
+                         <button class="key" key="a" onclick="input(this, 'a')">A</button>
+                         <button class="key" key="s" onclick="input(this, 's')">S</button>
+                         <button class="key" key="d" onclick="input(this, 'd')">D</button>
+                         <button class="key" key="f" onclick="input(this, 'f')">F</button>
+                         <button class="key" key="g" onclick="input(this, 'g')">G</button>
+                         <button class="key" key="h" onclick="input(this, 'h')">H</button>
+                         <button class="key" key="j" onclick="input(this, 'j')">J</button>
+                         <button class="key" key="k" onclick="input(this, 'k')">K</button>
+                         <button class="key" key="l" onclick="input(this, 'l')">L</button>
+                         <div class="half-key"></div>
+                    </div>
+                    <div class="key-row">
+                         <button class="key enter" key="enter" onclick="input(this, 'Enter')">Enter</button>
+                         <button class="key" key="z" onclick="input(this, 'z')">Z</button>
+                         <button class="key" key="x" onclick="input(this, 'x')">X</button>
+                         <button class="key" key="c" onclick="input(this, 'c')">C</button>
+                         <button class="key" key="v" onclick="input(this, 'v')">V</button>
+                         <button class="key" key="b" onclick="input(this, 'b')">B</button>
+                         <button class="key" key="n" onclick="input(this, 'n')">N</button>
+                         <button class="key" key="m" onclick="input(this, 'm')">M</button>
+                         <button class="key backspace" key="backspace" onclick="input(this, 'Backspace')"><span
+                                   class="glyphicon glyphicon-step-backward"></span></button>
                     </div>
                </div>
           </div>
