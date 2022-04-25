@@ -130,11 +130,11 @@ function clearBoard() {
           }
      }
      currentRow = 1
+     previousWord = getWord()
 }
-var previousWord = answers[Math.floor(Date.now() / 86400000 % answers.length)]
+var previousWord = getWord()
 function getWord() {
-     let word = answers[Math.floor(Date.now() / 86400000 % answers.length)]
-     return word
+     return answers[Math.floor(Date.now() / 86400000 % answers.length)]
 }
 
 async function colorKey(key) {
