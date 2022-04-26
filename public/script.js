@@ -1,5 +1,3 @@
-//TODO Fix so that if delete is pressed while coloring it doesn't mess up
-
 const board = document.getElementById("board");
 const rows = board.children
 var currentDistance = [];
@@ -58,11 +56,13 @@ function toWord() {
      return word
 }
 
+//Checks if word is a valid 5 letter word
 function checkWord() {
      let word = toWord()
      return (accepted.includes(word) || answers.includes(word))
 }
 
+//Writes pressed keys to the gameboard
 function updateBoard() {
      let slots = rows[currentRow].children
      for (var i = 0; i < slots.length; i++) {
@@ -74,6 +74,7 @@ function updateBoard() {
      }
 }
 
+//Colors in the board with the background color
 async function colorBoard() {
      coloring = true
      let solution = getWord()
@@ -89,6 +90,7 @@ async function colorBoard() {
      currentWord = []
      coloring = false
 }
+
 
 function validateBoard() {
      if (currentWord.length == 5 && checkWord()) {
@@ -145,7 +147,7 @@ async function colorKey(key) {
 
 function input(e, key) {
      colorKey(e);
-     if (won === true) return
+     if (won === true || coloring === true) return
      if (key == "Backspace") {
           currentWord.pop()
           updateBoard();
@@ -167,10 +169,10 @@ function input(e, key) {
 
 
 //TODO redo later with CSS so less sloppy
-var notificationShowing = 0;
+var notificationShowing = false;
 async function makePopup(text, time) {
-     if (notificationShowing == 0) {
-          notificationShowing = 1
+     if (notificationShowing === false) {
+          notificationShowing = true
           const body = document.getElementById("body")
           const popup = document.createElement("h1")
           popup.classList.add("popup")
@@ -179,7 +181,6 @@ async function makePopup(text, time) {
           popup.style.visibility = "hidden"
           body.appendChild(popup)
           const width = popup.clientWidth
-          const height = popup.clientHeight
           popup.style.paddingTop = `${15}px`
           popup.style.paddingBottom = `${15}px`
           popup.style.top = `${window.innerHeight * 0.1}px`
@@ -190,7 +191,7 @@ async function makePopup(text, time) {
           popup.style.visibility = "hidden"
           popup.remove()
      }
-     notificationShowing = 0
+     notificationShowing = false
 }
 
 function makeDirections() {
