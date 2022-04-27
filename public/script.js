@@ -129,7 +129,7 @@ function clearBoard() {
                rows[i].children[j].innerText = ""
           }
      }
-     currentRow = 1
+     currentRow = -1
      previousWord = getWord()
 }
 var previousWord = getWord()
