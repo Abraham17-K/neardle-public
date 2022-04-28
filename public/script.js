@@ -15,8 +15,98 @@ const greenEmoji = String.fromCodePoint(0x1F7E9)
 const blueEmoji = String.fromCodePoint(0x1F7E6)
 const whiteEmoji = String.fromCodePoint(0x2B1C)
 
-window.onload = function () {
-     makeDirections()
+function saveBoard() {
+     let arrayBoard = []
+     for (let i = 0; i <= currentRow; i++) {
+          let row = []
+          for (let j = 0; j < 5; j++) {
+               row[j] = rows[i].children[j].innerText
+          }
+          arrayBoard.push(row)
+     }
+     let board = arrayBoard
+     if (board === undefined) return
+     var boardArray = []
+     for (let i = 0; i < board.length; i++) {
+          let word = ""
+          for (let j = 0; j < 5; j++) {
+               word += board[i][j]
+          }
+          boardArray[i] = word
+     }
+     if (boardArray.length < 6) {
+          for (let i = 0; i < 6; i++) {
+               if (boardArray[i] === undefined) {
+                    boardArray[i] = null
+               }
+          }
+     }
+     sendSaveRequest(boardArray[0], boardArray[1], boardArray[2], boardArray[3], boardArray[4], boardArray[5])
+}
+
+
+window.onload = async function () {
+     // makeCookiePopup()
+     if (!getCookie("sessionId")) {
+          makeDirections()
+          createSession()
+     }
+     else {
+          let result = await validateSession()
+          if (result.sessionValid == false) {
+               createSession()
+               makeDirections()
+          }
+          if (result.sessionValid == true) {
+               closeDirections()
+               loadCurrentSession()
+          }
+     }
+}
+
+async function loadCurrentSession() {
+     const words = await getWords()
+     const wordsArray = [words.word1, words.word2, words.word3, words.word4, words.word5, words.word6]
+     for (let i = 0; i < 6; i++) {
+          let rowArray = []
+          if (wordsArray[i] != null) {
+               for (let j = 0; j < 5; j++) {
+                    let word = wordsArray[i]
+                    rowArray.push(word.charAt(j))
+               }
+               for (let j = 0; j < 5; j++) {
+                    rows[i].children[j].innerText = rowArray[j]
+               }
+          } else {
+               currentRow = i
+               break
+          }
+          if (i === 5) {
+               currentRow = 5
+          }
+          
+          for (let j = 0; j < 5; j++) {
+               let color = Math.abs(rowArray[j].toLocaleLowerCase().charCodeAt(0) - getWord().charCodeAt(j))
+               rows[currentRow].children[j].style.backgroundColor = gradient[color]
+          }
+          if (i === 5 || wordsArray[i].toLocaleLowerCase() === getWord()) {
+               won = true
+               await sleep(1050)
+               makeSharePopup()
+          }
+          currentRow++
+     }
+     
+}
+
+function getCookie(name) {
+     var cookieArray = document.cookie.split(";")
+     for (var i = 0; i < cookieArray.length; i++) {
+          var cookie = cookieArray[i].split("=")
+          if (cookie[0].trim() === name) {
+               return cookie[1]
+          }
+     }
 }
 //Listens for keypresses
 document.addEventListener("keydown", (e) => {
@@ -36,6 +126,7 @@ document.addEventListener("keydown", (e) => {
      else if (e.key == "Enter") {
           if (validateBoard() === true) {
                colorBoard()
+               saveBoard()
           }
 
      }
@@ -141,7 +232,7 @@ function getWord() {
 
 async function colorKey(key) {
      key.style.backgroundColor = "#434242"
-     sleep(1000)
+     await sleep(50)
      key.style.backgroundColor = "#5e5e5e"
 }
 
@@ -155,6 +246,7 @@ function input(e, key) {
      else if (key == "Enter") {
           if (validateBoard() === true) {
                colorBoard()
+               saveBoard()
           }
      }
      else if (currentWord.length >= 5) return
@@ -261,7 +353,8 @@ async function shareGame() {
 }
 
 //Returns board in capital leters in a 2d array
-function getBoard() { //TODO user later for sessions too
+//TODO figure out why <= currentRow does not work for the share but is needed for sessions. For now, I'm writing the modified code elsewhere
+function getBoard() {
      if (currentRow == 0) return
      let boardArray = []
      for (let i = 0; i < currentRow; i++) {
@@ -274,7 +367,7 @@ function getBoard() { //TODO user later for sessions too
      return boardArray
 }
 
-function getBoardColors() { //TODO user later for sessions
+function getBoardColors() {
      let board = getBoard()
      if (!board) return;
      let solution = getWord()
