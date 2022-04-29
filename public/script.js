@@ -14,6 +14,7 @@ const yellowEmoji = String.fromCodePoint(0x1F7E8)
 const greenEmoji = String.fromCodePoint(0x1F7E9)
 const blueEmoji = String.fromCodePoint(0x1F7E6)
 const whiteEmoji = String.fromCodePoint(0x2B1C)
+var previousWord = getWord()
 
 function saveBoard() {
      let arrayBoard = []
@@ -224,8 +225,12 @@ function clearBoard() {
      }
      currentRow = -1
      previousWord = getWord()
+     if (validateSession() === false) {
+          createSession()
+     }
 }
-var previousWord = getWord()
+
+
 function getWord() {
      return answers[Math.floor(Date.now() / 86400000 % answers.length)]
 }
