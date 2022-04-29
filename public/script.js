@@ -8,12 +8,6 @@ var coloring = false;
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 const gradient = ['#130FB9', '#72cb1f', '#7bc701', '#84c300', '#8cbf00', '#94ba00', '#9bb600', '#a2b100', '#a9ac00', '#b0a700', '#b7a200', '#bd9c00', '#c39600', '#c99000', '#cf8a00', '#d58300', '#da7c00', '#e07500', '#e56d00', '#e96400', '#ee5b00', '#f25100', '#f64500', '#f93800', '#fc2500', '#ff0000']
 
-const redEmoji = String.fromCodePoint(0x1F7E5)
-const orangeEmoji = String.fromCodePoint(0x1F7E7)
-const yellowEmoji = String.fromCodePoint(0x1F7E8)
-const greenEmoji = String.fromCodePoint(0x1F7E9)
-const blueEmoji = String.fromCodePoint(0x1F7E6)
-const whiteEmoji = String.fromCodePoint(0x2B1C)
 var previousWord = getWord()
 
 function saveBoard() {
@@ -401,12 +395,12 @@ function expandArray(array) {
 }
 
 function getEmojis(rendered) {
-     let redEmoji = "🟥"
-     let orangeEmoji = "🟧"
-     let yellowEmoji = "🟨"
-     let greenEmoji = "🟩"
-     let blueEmoji = "🟦"
-     let whiteEmoji = "⬜"
+     let redEmoji = String.fromCodePoint(0x1F7E5)
+     let orangeEmoji = String.fromCodePoint(0x1F7E7)
+     let yellowEmoji = String.fromCodePoint(0x1F7E8)
+     let greenEmoji = String.fromCodePoint(0x1F7E9)
+     let blueEmoji = String.fromCodePoint(0x1F7E6)
+     let whiteEmoji = String.fromCodePoint(0x2B1C)
      if (!rendered) {
           redEmoji = "0x1F7E5"
           orangeEmoji = "0x1F7E7"
