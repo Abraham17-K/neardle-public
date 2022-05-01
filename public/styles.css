@@ -361,6 +361,10 @@ header {
      margin-left: 10px;
 }
 
-#cookie-popup {
-     
+.body-buttonDirections {
+     display: inline;
+     position: absolute;
+     right: 0;
+     top: calc(25px - 2.5vh);
+     margin-right: 10px;
 }

@@ -79,7 +79,7 @@ async function loadCurrentSession() {
           if (i === 5) {
                currentRow = 5
           }
-          
+
           for (let j = 0; j < 5; j++) {
                let color = Math.abs(rowArray[j].toLocaleLowerCase().charCodeAt(0) - getWord().charCodeAt(j))
                rows[currentRow].children[j].style.backgroundColor = gradient[color]
@@ -91,7 +91,7 @@ async function loadCurrentSession() {
           }
           currentRow++
      }
-     
+
 }
 
 function getCookie(name) {
@@ -200,7 +200,7 @@ function checkSolution() {
           return true
      } else {
           if (currentRow >= 5) {
-               makePopup(`The word was ${getWord()}. Cry about it.`, 1000)
+               makePopup(`The word was ${getWord()}. Cry about it.`, 3000)
                won = true
                makeSharePopup(true)
                return false
@@ -258,7 +258,6 @@ function input(e, key) {
      updateBoard()
 }
 
-
 //TODO redo later with CSS so less sloppy
 var notificationShowing = false;
 async function makePopup(text, time) {
@@ -286,17 +285,20 @@ async function makePopup(text, time) {
 }
 
 function makeDirections() {
+     won = true
+     const gameBoard = document.getElementById("gameBoard")
+     const button = document.getElementById("directions-body")
      const popup = document.getElementById("directionPopup")
-     let gameTiles = document.getElementsByClassName("directions-tile")
+     gameBoard.classList.add("hidden")
      popup.classList.remove("hidden")
-     for (let i = 0; i < 5; i++) {
-          gameTiles[i].style.height = gameTiles[i].style.width
-     }
+     button.classList.add("hidden")
 }
 
 function closeDirections() {
+     const button = document.getElementById("directions-body")
      const game = document.getElementById("gameBoard")
      const popup = document.getElementById("directionPopup")
+     button.classList.remove("hidden")
      popup.classList.add("hidden")
      game.classList.remove("hidden")
      won = false;
@@ -312,7 +314,7 @@ function closeShare() {
 
 async function makeSharePopup(delay) {
      if (delay) {
-          await sleep(1500)
+          await sleep(3000)
      }
      const shareButtonBody = document.getElementById("share-body")
      const popup = document.getElementById("sharePopup")
@@ -379,19 +381,6 @@ function getBoardColors() {
           colorArray.push(colorRow)
      }
      return colorArray
-}
-
-function expandArray(array) {
-     for (let i = 0; i < 6; i++) {
-          let row = []
-          for (let j = 0; j < 5; j++) {
-               if (array[i][j] == undefined) {
-                    row[j] = " "
-               }
-          }
-          array.push(row)
-     }
-     return array
 }
 
 function getEmojis(rendered) {
