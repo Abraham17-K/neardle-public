@@ -286,6 +286,8 @@ async function makePopup(text, time) {
 
 function makeDirections() {
      won = true
+     const sharePopup = document.getElementById("sharePopup")
+     if (sharePopup.classList.contains("hidden") === false) closeShare()
      const gameBoard = document.getElementById("gameBoard")
      const button = document.getElementById("directions-body")
      const popup = document.getElementById("directionPopup")
@@ -313,6 +315,8 @@ function closeShare() {
 }
 
 async function makeSharePopup(delay) {
+     const directionPopup = document.getElementById("directionPopup")
+     if (directionPopup.classList.contains("hidden") === false) closeDirections()
      if (delay) {
           await sleep(3000)
      }
