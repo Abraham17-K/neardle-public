@@ -41,20 +41,24 @@ function saveBoard() {
 
 
 window.onload = async function () {
-     // makeCookiePopup()
-     if (!getCookie("sessionId")) {
-          makeDirections()
-          createSession()
-     }
-     else {
-          let result = await validateSession()
-          if (result.sessionValid == false) {
-               createSession()
+console.log(window.location.href)
+     if (window.location.href == "https://neardle.tk/" || window.location.href == "https://www.neardle.tk/" || window.location.href == "https://www.neardle.ga/") {
+          window.location.href = "https://neardle.ga/"
+     } else {
+          if (!getCookie("sessionId")) {
                makeDirections()
+               createSession()
           }
-          if (result.sessionValid == true) {
-               closeDirections()
-               loadCurrentSession()
+          else {
+               let result = await validateSession()
+               if (result.sessionValid == false) {
+                    createSession()
+                    makeDirections()
+               }
+               if (result.sessionValid == true) {
+                    closeDirections()
+                    loadCurrentSession()
+               }
           }
      }
 }
@@ -334,11 +338,12 @@ async function shareGame() {
      let message = ""
      let emojiFinal = getEmojis(true)
      if (won == true) {
-          message = `Neardle - ${currentRow} / 6\n`
+          message = `Neardle - ${Math.floor(Date.now() / 86400000 % answers.length)} - ${currentRow} / 6\n`
      } else {
           message = `Neardle - ${Math.floor(Date.now() / 86400000 % answers.length)} - ${currentRow} / 6\n`
      }
      message += emojiFinal
+     message += "https://neardle.ga"
      if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
           results.innerText = message
           const shareMessage = {

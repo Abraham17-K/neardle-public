@@ -22,7 +22,7 @@ async function getWords() {
 }
 
 function createSession() {
-     fetch(`${url}/createSession`, { method: 'POST' })
+     fetch(`${url}/createSession`, { method: 'POST' , credentials: 'include'})
 }
 
 async function validateSession() {

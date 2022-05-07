@@ -5,7 +5,6 @@ const express = require('express')
 const app = express()
 const port = 3000
 const cookieParser = require('cookie-parser')
-const session = require('express-session')
 const https = require('https')
 const mysql = require("mysql")
 const crypto = require("crypto")
@@ -25,9 +24,8 @@ app.use(cookieParser())
 app.use(express.json());
 
 app.get('/', (req, res) => {
-     res.sendFile(__dirname + '/public/index')
+     res.sendFile(__dirname + '/public/index.html')
 })
-
 
 //Express Listen
 app.listen(port, () => {
@@ -63,7 +61,7 @@ app.post("/createSession", async (req, res) => {
           await connection.query(insert_query, async (err, result) => {
                connection.release()
                if (err) throw (err)
-               res.cookie("sessionId", sessionId, { maxAge: 86400000, overwrite: true }).send()
+               res.cookie("sessionId", sessionId, { maxAge: 86400000, overwrite: true}).send()
           })
      })
 });
@@ -78,7 +76,7 @@ app.get("/getWords", async (req, res) => {
                if (result.length > 0) {
                     connection.release()
                     if (err) throw (err)
-                    res.json({word1: result[0].word1, word2: result[0].word2, word3: result[0].word3, word4: result[0].word4, word5: result[0].word5, word6: result[0].word6})
+                    res.json({ word1: result[0].word1, word2: result[0].word2, word3: result[0].word3, word4: result[0].word4, word5: result[0].word5, word6: result[0].word6 })
                }
           })
      })
@@ -93,7 +91,7 @@ app.get("/validateSession", async (req, res) => {
           await connection.query(insert_query, async (err, result) => {
                connection.release()
                if (err) throw (err)
-               res.json({sessionValid: result.length > 0})
+               res.json({ sessionValid: result.length > 0 })
           })
      })
 })
