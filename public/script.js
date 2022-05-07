@@ -41,7 +41,6 @@ function saveBoard() {
 
 
 window.onload = async function () {
-console.log(window.location.href)
      if (window.location.href == "https://neardle.tk/" || window.location.href == "https://www.neardle.tk/" || window.location.href == "https://www.neardle.ga/") {
           window.location.href = "https://neardle.ga/"
      } else {
