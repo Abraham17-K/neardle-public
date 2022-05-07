@@ -146,7 +146,6 @@ body {
 
 
      transition: visible 1s;
-     /* animation: fadeIn 1.5s fadeOut 1.5s; */
 
 }
 
@@ -243,6 +242,7 @@ body {
      padding-left: 10px;
      padding-right: 10px;
      margin-bottom: 50px;
+     margin-top: 10px;
 }
 
 .display-bar {
