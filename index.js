@@ -61,7 +61,7 @@ app.post("/createSession", async (req, res) => {
           await connection.query(insert_query, async (err, result) => {
                connection.release()
                if (err) throw (err)
-               res.cookie("sessionId", sessionId, { maxAge: 86400000, overwrite: true}).send()
+               res.cookie("sessionId", sessionId, { maxAge: 86400000, overwrite: true }).send()
           })
      })
 });

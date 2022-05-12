@@ -2,13 +2,13 @@
 const url = "http://localhost:3000"
 
 function makeCookiePopup() {
-    var cookiePopup = document.createElement("div");
-    cookiePopup.id = "cookie-popup";
-    cookiePopup.innerHTML = "<div id='cookie-popup-inner'><div id='cookie-popup-content'><p>This website uses cookies to ensure you get the best experience on our website. <a href='/privacy-policy.html'>Learn more</a></p><button id='cookie-popup-accept'>Accept</button></div></div>";
-    document.body.appendChild(cookiePopup);
-    document.getElementById("cookie-popup-accept").addEventListener("click", function () {
-        document.getElementById("cookie-popup").style.display = "none";
-    });
+     var cookiePopup = document.createElement("div");
+     cookiePopup.id = "cookie-popup";
+     cookiePopup.innerHTML = "<div id='cookie-popup-inner'><div id='cookie-popup-content'><p>This website uses cookies to ensure you get the best experience on our website. <a href='/privacy-policy.html'>Learn more</a></p><button id='cookie-popup-accept'>Accept</button></div></div>";
+     document.body.appendChild(cookiePopup);
+     document.getElementById("cookie-popup-accept").addEventListener("click", function () {
+          document.getElementById("cookie-popup").style.display = "none";
+     });
 }
 
 
@@ -22,7 +22,7 @@ async function getWords() {
 }
 
 function createSession() {
-     fetch(`${url}/createSession`, { method: 'POST' , credentials: 'include'})
+     fetch(`${url}/createSession`, { method: 'POST', credentials: 'include' })
 }
 
 async function validateSession() {

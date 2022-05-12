@@ -41,9 +41,9 @@ function saveBoard() {
 
 
 window.onload = async function () {
-     // if (window.location.href == "https://neardle.tk/" || window.location.href == "https://www.neardle.tk/" || window.location.href == "https://www.neardle.ga/") {
-     //      window.location.href = "https://neardle.ga/"
-     // } else {
+     if (window.location.href == "https://neardle.tk/" || window.location.href == "https://www.neardle.tk/" || window.location.href == "https://www.neardle.ga/") {
+          window.location.href = "https://neardle.ga/"
+     } else {
           if (!getCookie("sessionId")) {
                makeDirections()
                createSession()
@@ -59,7 +59,7 @@ window.onload = async function () {
                     loadCurrentSession()
                }
           }
-     //}
+     }
 }
 
 async function loadCurrentSession() {
